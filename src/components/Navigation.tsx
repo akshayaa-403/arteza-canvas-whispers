@@ -25,42 +25,28 @@ const Navigation = () => {
 
   return (
     <>
-      {/* Theme Toggle - Floating */}
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={toggleTheme}
-        className="fixed top-6 right-6 z-50 w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm border-arteza-blush hover:bg-arteza-blush transition-all duration-300 animate-gentle-float"
-      >
-        {theme === "light" ? (
-          <Moon className="h-4 w-4" />
-        ) : (
-          <Sun className="h-4 w-4" />
-        )}
-      </Button>
-
-      {/* Cart Icon - Fixed */}
-      <Button
-        asChild
-        variant="outline"
-        size="sm"
-        className="fixed top-6 right-20 z-50 w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm border-arteza-blush hover:bg-arteza-blush transition-all duration-300"
-      >
-        <Link to="/cart">
-          <ShoppingBag className="h-4 w-4" />
-        </Link>
-      </Button>
-
       {/* Navigation */}
-      <nav className="relative z-40 bg-background/95 backdrop-blur-sm border-b border-arteza-blush">
+      <nav className="relative z-40 bg-background/95 backdrop-blur-sm border-b border-arteza-sage">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             {/* Logo */}
             <Link 
               to="/" 
-              className="text-2xl font-serif font-bold text-arteza-charcoal hover-brush-stroke"
+              className="group relative"
             >
-              ARTEZA
+              <div className="text-3xl font-serif font-bold text-arteza-clay hover-brush-stroke tracking-wider">
+                <span className="relative">
+                  A
+                  <span className="text-arteza-terracotta">R</span>
+                  T
+                  <span className="text-arteza-terracotta">E</span>
+                  Z
+                  <span className="text-arteza-terracotta">A</span>
+                </span>
+              </div>
+              <div className="text-xs text-arteza-clay/70 font-sans tracking-[0.2em] mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                by upasna
+              </div>
             </Link>
 
             {/* Desktop Navigation */}
@@ -71,8 +57,8 @@ const Navigation = () => {
                   to={item.path}
                   className={`px-3 py-2 text-sm font-medium transition-all duration-300 hover-brush-stroke ${
                     location.pathname === item.path
-                      ? "text-arteza-indigo"
-                      : "text-foreground hover:text-arteza-indigo"
+                      ? "text-arteza-terracotta"
+                      : "text-foreground hover:text-arteza-terracotta"
                   }`}
                 >
                   {item.name}
@@ -80,23 +66,52 @@ const Navigation = () => {
               ))}
             </div>
 
-            {/* Mobile menu button */}
-            <div className="md:hidden">
+            {/* Right side buttons */}
+            <div className="flex items-center space-x-3">
+              {/* Cart Icon */}
               <Button
-                variant="ghost"
+                asChild
+                variant="outline"
                 size="sm"
-                onClick={() => setIsOpen(!isOpen)}
-                className="text-foreground"
+                className="w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm border-arteza-sage hover:bg-arteza-sage transition-all duration-300"
               >
-                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                <Link to="/cart">
+                  <ShoppingBag className="h-4 w-4" />
+                </Link>
               </Button>
+
+              {/* Theme Toggle */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={toggleTheme}
+                className="w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm border-arteza-sage hover:bg-arteza-sage transition-all duration-300"
+              >
+                {theme === "light" ? (
+                  <Moon className="h-4 w-4" />
+                ) : (
+                  <Sun className="h-4 w-4" />
+                )}
+              </Button>
+
+              {/* Mobile menu button */}
+              <div className="md:hidden">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="text-foreground"
+                >
+                  {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden bg-background/95 backdrop-blur-sm border-t border-arteza-blush">
+          <div className="md:hidden bg-background/95 backdrop-blur-sm border-t border-arteza-sage">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
                 <Link
@@ -105,8 +120,8 @@ const Navigation = () => {
                   onClick={() => setIsOpen(false)}
                   className={`block px-3 py-2 text-base font-medium transition-all duration-300 ${
                     location.pathname === item.path
-                      ? "text-arteza-indigo bg-arteza-blush"
-                      : "text-foreground hover:text-arteza-indigo hover:bg-arteza-blush"
+                      ? "text-arteza-terracotta bg-arteza-sage"
+                      : "text-foreground hover:text-arteza-terracotta hover:bg-arteza-sage"
                   }`}
                 >
                   {item.name}

@@ -58,14 +58,14 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				arteza: {
-					blush: 'hsl(var(--arteza-blush))',
-					peach: 'hsl(var(--arteza-peach))',
-					ivory: 'hsl(var(--arteza-ivory))',
-					gold: 'hsl(var(--arteza-gold))',
-					olive: 'hsl(var(--arteza-olive))',
-					brown: 'hsl(var(--arteza-brown))',
+					terracotta: 'hsl(var(--arteza-terracotta))',
+					sage: 'hsl(var(--arteza-sage))',
+					cream: 'hsl(var(--arteza-cream))',
+					clay: 'hsl(var(--arteza-clay))',
+					rust: 'hsl(var(--arteza-rust))',
+					moss: 'hsl(var(--arteza-moss))',
 					charcoal: 'hsl(var(--arteza-charcoal))',
-					indigo: 'hsl(var(--arteza-indigo))',
+					copper: 'hsl(var(--arteza-copper))',
 				}
 			},
 			borderRadius: {

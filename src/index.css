@@ -3,91 +3,91 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ARTEZA Design System - Soft, Earthy Pastel Palette */
+/* ARTEZA Design System - Sophisticated Artist Palette */
 
 @layer base {
   :root {
-    /* Light Mode - Soft, Earthy Pastels */
-    --background: 21 15% 97%; /* Ivory #F9F5F1 */
-    --foreground: 220 13% 13%; /* Charcoal */
+    /* Light Mode - Warm, Earthy Artist Tones */
+    --background: 30 25% 96%; /* Warm Paper #F7F3F0 */
+    --foreground: 25 15% 15%; /* Deep Umber */
 
-    --card: 21 15% 97%;
-    --card-foreground: 220 13% 13%;
+    --card: 30 25% 96%;
+    --card-foreground: 25 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 13% 13%;
+    --popover-foreground: 25 15% 15%;
 
-    --primary: 15 25% 85%; /* Blush #FBEAE5 */
-    --primary-foreground: 220 13% 13%;
+    --primary: 18 45% 75%; /* Terracotta #E4A373 */
+    --primary-foreground: 25 15% 15%;
 
-    --secondary: 28 35% 88%; /* Peach #FADFCB */
-    --secondary-foreground: 220 13% 13%;
+    --secondary: 35 30% 85%; /* Warm Sand #F0E5D0 */
+    --secondary-foreground: 25 15% 15%;
 
-    --muted: 40 20% 92%; /* Muted Gold */
-    --muted-foreground: 30 8% 45%;
+    --muted: 45 20% 90%; /* Muted Cream */
+    --muted-foreground: 30 12% 45%;
 
-    --accent: 45 25% 75%; /* Olive */
-    --accent-foreground: 220 13% 13%;
+    --accent: 85 25% 70%; /* Sage Green */
+    --accent-foreground: 25 15% 15%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 28 20% 90%;
-    --input: 28 20% 90%;
-    --ring: 220 13% 13%;
+    --border: 35 20% 88%;
+    --input: 35 20% 88%;
+    --ring: 25 15% 15%;
 
     --radius: 0.75rem;
 
-    /* Custom ARTEZA Colors */
-    --arteza-blush: 15 25% 85%; /* #FBEAE5 */
-    --arteza-peach: 28 35% 88%; /* #FADFCB */
-    --arteza-ivory: 21 15% 97%; /* #F9F5F1 */
-    --arteza-gold: 40 20% 82%;
-    --arteza-olive: 45 25% 75%;
-    --arteza-brown: 25 15% 55%;
-    --arteza-charcoal: 220 13% 13%;
-    --arteza-indigo: 225 25% 25%;
+    /* Custom ARTEZA Colors - Artist's Palette */
+    --arteza-terracotta: 18 45% 65%; /* #D2845A */
+    --arteza-sage: 85 25% 80%; /* #DDEBC4 */
+    --arteza-cream: 35 30% 92%; /* #F5F0E8 */
+    --arteza-clay: 25 35% 45%; /* #9B6B47 */
+    --arteza-rust: 15 55% 55%; /* #C7724A */
+    --arteza-moss: 90 20% 40%; /* #7A8471 */
+    --arteza-charcoal: 25 15% 15%; /* #2D2520 */
+    --arteza-copper: 20 40% 60%; /* #B8805A */
   }
 
   .dark {
-    /* Dark Mode - Rich Aubergine and Deep Ink Tones */
-    --background: 270 15% 8%; /* Deep Aubergine */
-    --foreground: 21 15% 95%; /* Light Ivory */
+    /* Dark Mode - Rich, Moody Artist Studio */
+    --background: 25 25% 8%; /* Deep Studio Black */
+    --foreground: 35 20% 90%; /* Warm White */
 
-    --card: 270 15% 10%;
-    --card-foreground: 21 15% 95%;
+    --card: 25 25% 10%;
+    --card-foreground: 35 20% 90%;
 
-    --popover: 270 15% 8%;
-    --popover-foreground: 21 15% 95%;
+    --popover: 25 25% 8%;
+    --popover-foreground: 35 20% 90%;
 
-    --primary: 270 25% 20%; /* Rich Aubergine */
-    --primary-foreground: 21 15% 95%;
+    --primary: 18 35% 45%; /* Deep Terracotta */
+    --primary-foreground: 35 20% 90%;
 
-    --secondary: 225 30% 15%; /* Deep Ink */
-    --secondary-foreground: 21 15% 95%;
+    --secondary: 25 20% 15%; /* Dark Clay */
+    --secondary-foreground: 35 20% 90%;
 
-    --muted: 270 15% 15%;
-    --muted-foreground: 21 8% 70%;
+    --muted: 25 15% 18%;
+    --muted-foreground: 35 12% 65%;
 
-    --accent: 270 20% 25%;
-    --accent-foreground: 21 15% 95%;
+    --accent: 85 15% 25%; /* Dark Sage */
+    --accent-foreground: 35 20% 90%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 270 15% 20%;
-    --input: 270 15% 20%;
-    --ring: 21 15% 95%;
+    --border: 25 15% 20%;
+    --input: 25 15% 20%;
+    --ring: 35 20% 90%;
 
     /* Custom ARTEZA Dark Colors */
-    --arteza-blush: 270 25% 20%;
-    --arteza-peach: 225 30% 15%;
-    --arteza-ivory: 270 15% 8%;
-    --arteza-gold: 40 20% 25%;
-    --arteza-olive: 45 25% 20%;
-    --arteza-brown: 25 15% 30%;
-    --arteza-charcoal: 21 15% 95%;
-    --arteza-indigo: 225 25% 65%;
+    --arteza-terracotta: 18 35% 55%;
+    --arteza-sage: 85 15% 25%;
+    --arteza-cream: 25 25% 8%;
+    --arteza-clay: 35 20% 75%;
+    --arteza-rust: 15 45% 45%;
+    --arteza-moss: 90 15% 30%;
+    --arteza-charcoal: 35 20% 90%;
+    --arteza-copper: 20 30% 50%;
   }
 }
 
@@ -112,31 +112,35 @@
 
 /* Custom ARTEZA Utilities */
 @layer utilities {
-  .arteza-blush {
-    background-color: hsl(var(--arteza-blush));
+  .arteza-terracotta {
+    background-color: hsl(var(--arteza-terracotta));
   }
   
-  .arteza-peach {
-    background-color: hsl(var(--arteza-peach));
+  .arteza-sage {
+    background-color: hsl(var(--arteza-sage));
   }
   
-  .arteza-ivory {
-    background-color: hsl(var(--arteza-ivory));
+  .arteza-cream {
+    background-color: hsl(var(--arteza-cream));
   }
   
+  .text-arteza-clay {
+    color: hsl(var(--arteza-clay));
+  }
+  
+  .text-arteza-terracotta {
+    color: hsl(var(--arteza-terracotta));
+  }
+
   .text-arteza-charcoal {
     color: hsl(var(--arteza-charcoal));
-  }
-  
-  .text-arteza-indigo {
-    color: hsl(var(--arteza-indigo));
   }
 
   .watercolor-fade {
     background: linear-gradient(135deg, 
-      hsl(var(--arteza-blush)) 0%, 
-      hsl(var(--arteza-peach)) 50%, 
-      hsl(var(--arteza-ivory)) 100%);
+      hsl(var(--arteza-terracotta)) 0%, 
+      hsl(var(--arteza-sage)) 50%, 
+      hsl(var(--arteza-cream)) 100%);
   }
 
   .sketch-border {
@@ -200,7 +204,7 @@
     left: 0;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, hsl(var(--arteza-blush)), hsl(var(--arteza-peach)));
+    background: linear-gradient(90deg, hsl(var(--arteza-terracotta)), hsl(var(--arteza-sage)));
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.6s ease;
