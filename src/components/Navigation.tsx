@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, ShoppingBag } from "lucide-react";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +15,7 @@ const Navigation = () => {
     { name: "Shop", path: "/shop" },
     { name: "About", path: "/about" },
     { name: "Blog", path: "/blog" },
+    { name: "Gallery", path: "/student-gallery" },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -36,6 +37,18 @@ const Navigation = () => {
         ) : (
           <Sun className="h-4 w-4" />
         )}
+      </Button>
+
+      {/* Cart Icon - Fixed */}
+      <Button
+        asChild
+        variant="outline"
+        size="sm"
+        className="fixed top-6 right-20 z-50 w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm border-arteza-blush hover:bg-arteza-blush transition-all duration-300"
+      >
+        <Link to="/cart">
+          <ShoppingBag className="h-4 w-4" />
+        </Link>
       </Button>
 
       {/* Navigation */}

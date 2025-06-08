@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, Palette, Users, Award } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 
@@ -103,7 +103,7 @@ const Home = () => {
               size="lg"
               className="border-arteza-indigo text-arteza-indigo hover:bg-arteza-indigo hover:text-white transition-all duration-300 px-8 py-3 text-lg"
             >
-              <Link to="/about">Meet the Artist</Link>
+              <Link to="/quiz">Find Your Collection</Link>
             </Button>
           </div>
         </div>
@@ -184,6 +184,74 @@ const Home = () => {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 px-4 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <Card className="border-arteza-blush text-center hover:shadow-lg transition-all duration-300">
+            <CardContent className="p-8">
+              <div className="w-16 h-16 bg-arteza-blush rounded-full flex items-center justify-center mx-auto mb-6">
+                <Palette className="h-8 w-8 text-arteza-indigo" />
+              </div>
+              <h3 className="text-xl font-serif font-bold text-arteza-charcoal mb-4">
+                Commission Art
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                Work with Upasna to create a unique piece that tells your story
+              </p>
+              <Button 
+                asChild
+                variant="outline"
+                className="border-arteza-blush text-arteza-charcoal hover:bg-arteza-blush"
+              >
+                <Link to="/commission">Start Your Commission</Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="border-arteza-blush text-center hover:shadow-lg transition-all duration-300">
+            <CardContent className="p-8">
+              <div className="w-16 h-16 bg-arteza-peach rounded-full flex items-center justify-center mx-auto mb-6">
+                <Users className="h-8 w-8 text-arteza-indigo" />
+              </div>
+              <h3 className="text-xl font-serif font-bold text-arteza-charcoal mb-4">
+                Student Gallery
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                Discover inspiring works from Upasna's art students
+              </p>
+              <Button 
+                asChild
+                variant="outline"
+                className="border-arteza-blush text-arteza-charcoal hover:bg-arteza-blush"
+              >
+                <Link to="/student-gallery">View Gallery</Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="border-arteza-blush text-center hover:shadow-lg transition-all duration-300">
+            <CardContent className="p-8">
+              <div className="w-16 h-16 bg-arteza-ivory rounded-full flex items-center justify-center mx-auto mb-6">
+                <Award className="h-8 w-8 text-arteza-indigo" />
+              </div>
+              <h3 className="text-xl font-serif font-bold text-arteza-charcoal mb-4">
+                Collector's Wall
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                See how ARTEZA pieces transform homes across India
+              </p>
+              <Button 
+                asChild
+                variant="outline"
+                className="border-arteza-blush text-arteza-charcoal hover:bg-arteza-blush"
+              >
+                <Link to="/collectors-wall">See Stories</Link>
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
