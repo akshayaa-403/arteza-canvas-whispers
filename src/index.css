@@ -1,94 +1,93 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
+/* ARTEZA Design System - Soft, Earthy Pastel Palette */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Light Mode - Soft, Earthy Pastels */
+    --background: 21 15% 97%; /* Ivory #F9F5F1 */
+    --foreground: 220 13% 13%; /* Charcoal */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 21 15% 97%;
+    --card-foreground: 220 13% 13%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 13% 13%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 15 25% 85%; /* Blush #FBEAE5 */
+    --primary-foreground: 220 13% 13%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 28 35% 88%; /* Peach #FADFCB */
+    --secondary-foreground: 220 13% 13%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 40 20% 92%; /* Muted Gold */
+    --muted-foreground: 30 8% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 45 25% 75%; /* Olive */
+    --accent-foreground: 220 13% 13%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 28 20% 90%;
+    --input: 28 20% 90%;
+    --ring: 220 13% 13%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Custom ARTEZA Colors */
+    --arteza-blush: 15 25% 85%; /* #FBEAE5 */
+    --arteza-peach: 28 35% 88%; /* #FADFCB */
+    --arteza-ivory: 21 15% 97%; /* #F9F5F1 */
+    --arteza-gold: 40 20% 82%;
+    --arteza-olive: 45 25% 75%;
+    --arteza-brown: 25 15% 55%;
+    --arteza-charcoal: 220 13% 13%;
+    --arteza-indigo: 225 25% 25%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark Mode - Rich Aubergine and Deep Ink Tones */
+    --background: 270 15% 8%; /* Deep Aubergine */
+    --foreground: 21 15% 95%; /* Light Ivory */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 270 15% 10%;
+    --card-foreground: 21 15% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 270 15% 8%;
+    --popover-foreground: 21 15% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 270 25% 20%; /* Rich Aubergine */
+    --primary-foreground: 21 15% 95%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 225 30% 15%; /* Deep Ink */
+    --secondary-foreground: 21 15% 95%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 270 15% 15%;
+    --muted-foreground: 21 8% 70%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 270 20% 25%;
+    --accent-foreground: 21 15% 95%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 270 15% 20%;
+    --input: 270 15% 20%;
+    --ring: 21 15% 95%;
+
+    /* Custom ARTEZA Dark Colors */
+    --arteza-blush: 270 25% 20%;
+    --arteza-peach: 225 30% 15%;
+    --arteza-ivory: 270 15% 8%;
+    --arteza-gold: 40 20% 25%;
+    --arteza-olive: 45 25% 20%;
+    --arteza-brown: 25 15% 30%;
+    --arteza-charcoal: 21 15% 95%;
+    --arteza-indigo: 225 25% 65%;
   }
 }
 
@@ -98,6 +97,116 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  .font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .font-sans {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+}
+
+/* Custom ARTEZA Utilities */
+@layer utilities {
+  .arteza-blush {
+    background-color: hsl(var(--arteza-blush));
+  }
+  
+  .arteza-peach {
+    background-color: hsl(var(--arteza-peach));
+  }
+  
+  .arteza-ivory {
+    background-color: hsl(var(--arteza-ivory));
+  }
+  
+  .text-arteza-charcoal {
+    color: hsl(var(--arteza-charcoal));
+  }
+  
+  .text-arteza-indigo {
+    color: hsl(var(--arteza-indigo));
+  }
+
+  .watercolor-fade {
+    background: linear-gradient(135deg, 
+      hsl(var(--arteza-blush)) 0%, 
+      hsl(var(--arteza-peach)) 50%, 
+      hsl(var(--arteza-ivory)) 100%);
+  }
+
+  .sketch-border {
+    position: relative;
+  }
+  
+  .sketch-border::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, hsl(var(--arteza-charcoal)), transparent, hsl(var(--arteza-charcoal)));
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0.1;
+  }
+}
+
+/* Custom Animations */
+@layer utilities {
+  @keyframes watercolor-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-10px) rotate(1deg); }
+    66% { transform: translateY(-5px) rotate(-1deg); }
+  }
+  
+  @keyframes brush-stroke {
+    0% { transform: scaleX(0); opacity: 0; }
+    50% { opacity: 0.7; }
+    100% { transform: scaleX(1); opacity: 1; }
+  }
+  
+  @keyframes gentle-float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .animate-watercolor-float {
+    animation: watercolor-float 6s ease-in-out infinite;
+  }
+  
+  .animate-brush-stroke {
+    animation: brush-stroke 0.8s ease-out forwards;
+  }
+  
+  .animate-gentle-float {
+    animation: gentle-float 3s ease-in-out infinite;
+  }
+
+  .hover-brush-stroke {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hover-brush-stroke::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, hsl(var(--arteza-blush)), hsl(var(--arteza-peach)));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s ease;
+  }
+  
+  .hover-brush-stroke:hover::after {
+    transform: scaleX(1);
   }
 }
