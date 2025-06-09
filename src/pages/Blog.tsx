@@ -64,26 +64,26 @@ const Blog = () => {
   const categories = ["All", "Studio Thoughts", "Artistic Process", "Philosophy", "Life & Art", "Teaching"];
 
   return (
-    <div className="min-h-screen pt-8 pb-20">
+    <div className="min-h-screen pt-4 sm:pt-8 pb-10 sm:pb-20 px-4">
       {/* Header */}
-      <div className="max-w-4xl mx-auto px-4 text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-serif font-bold text-arteza-charcoal mb-6">
+      <div className="max-w-4xl mx-auto text-center mb-8 sm:mb-16">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-foreground mb-4 sm:mb-6">
           Art Journal
         </h1>
-        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+        <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed px-4 sm:px-0">
           Thoughts, musings, and stories from the studio. A glimpse into the mind 
           and heart behind each brushstroke.
         </p>
       </div>
 
       {/* Category Filter */}
-      <div className="max-w-6xl mx-auto px-4 mb-12">
-        <div className="flex flex-wrap justify-center gap-3">
+      <div className="max-w-6xl mx-auto mb-8 sm:mb-12">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 px-2">
           {categories.map((category) => (
             <Badge
               key={category}
               variant="outline"
-              className="cursor-pointer border-arteza-blush text-arteza-charcoal hover:bg-arteza-blush transition-all duration-300"
+              className="cursor-pointer border-primary/20 text-foreground hover:bg-primary/10 hover:text-primary transition-all duration-300 text-xs sm:text-sm"
             >
               {category}
             </Badge>
@@ -92,38 +92,38 @@ const Blog = () => {
       </div>
 
       {/* Featured Post */}
-      <div className="max-w-6xl mx-auto px-4 mb-16">
-        <Card className="border-arteza-blush overflow-hidden hover:shadow-xl transition-all duration-500">
-          <div className="grid grid-cols-1 lg:grid-cols-2 h-96">
-            <div className="relative overflow-hidden">
+      <div className="max-w-6xl mx-auto mb-12 sm:mb-16">
+        <Card className="border-primary/20 overflow-hidden hover:shadow-xl transition-all duration-500">
+          <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[300px] lg:h-96">
+            <div className="relative overflow-hidden order-2 lg:order-1">
               <img
                 src={blogPosts[0].image}
                 alt={blogPosts[0].title}
-                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                className="w-full h-48 lg:h-full object-cover transition-transform duration-700 hover:scale-105"
               />
-              <Badge className="absolute top-4 left-4 bg-arteza-indigo text-white">
+              <Badge className="absolute top-3 left-3 bg-primary text-primary-foreground hover:bg-primary/90">
                 Featured
               </Badge>
             </div>
-            <CardContent className="p-8 flex flex-col justify-center">
-              <div className="mb-4">
-                <Badge variant="outline" className="border-arteza-peach text-arteza-charcoal mb-2">
+            <CardContent className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center order-1 lg:order-2">
+              <div className="mb-3 sm:mb-4">
+                <Badge variant="outline" className="border-primary/30 text-foreground mb-2">
                   {blogPosts[0].category}
                 </Badge>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   {blogPosts[0].date} • {blogPosts[0].readTime}
                 </p>
               </div>
               
-              <h2 className="text-2xl md:text-3xl font-serif font-bold text-arteza-charcoal mb-4 hover-brush-stroke">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-foreground mb-3 sm:mb-4 hover-brush-stroke">
                 {blogPosts[0].title}
               </h2>
               
-              <p className="text-muted-foreground leading-relaxed mb-6">
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-4 sm:mb-6">
                 {blogPosts[0].excerpt}
               </p>
               
-              <Button className="w-fit bg-arteza-indigo text-white hover:bg-arteza-charcoal transition-all duration-300">
+              <Button className="w-fit bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300">
                 Read Full Story
               </Button>
             </CardContent>
@@ -132,15 +132,15 @@ const Blog = () => {
       </div>
 
       {/* Blog Grid */}
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {blogPosts.slice(1).map((post, index) => (
             <Card 
               key={post.id}
-              className="group cursor-pointer border-arteza-blush hover:shadow-lg transition-all duration-500 hover:-translate-y-2 overflow-hidden"
+              className="group cursor-pointer border-primary/20 hover:shadow-lg transition-all duration-500 hover:-translate-y-2 overflow-hidden"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-36 sm:h-48 overflow-hidden">
                 <img
                   src={post.image}
                   alt={post.title}
@@ -149,9 +149,9 @@ const Blog = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               
-              <CardContent className="p-6">
-                <div className="mb-3">
-                  <Badge variant="outline" className="border-arteza-peach text-arteza-charcoal text-xs mb-2">
+              <CardContent className="p-4 sm:p-6">
+                <div className="mb-2 sm:mb-3">
+                  <Badge variant="outline" className="border-primary/30 text-foreground text-xs mb-2">
                     {post.category}
                   </Badge>
                   <p className="text-xs text-muted-foreground">
@@ -159,18 +159,18 @@ const Blog = () => {
                   </p>
                 </div>
                 
-                <h3 className="text-lg font-serif font-semibold text-arteza-charcoal mb-3 group-hover:text-arteza-indigo transition-colors line-clamp-2">
+                <h3 className="text-sm sm:text-lg font-serif font-semibold text-foreground mb-2 sm:mb-3 group-hover:text-primary transition-colors line-clamp-2">
                   {post.title}
                 </h3>
                 
-                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-4">
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-3 sm:mb-4">
                   {post.excerpt}
                 </p>
                 
                 <Button 
                   variant="ghost" 
                   size="sm"
-                  className="text-arteza-indigo hover:text-arteza-charcoal hover:bg-arteza-blush transition-all duration-300 p-0 h-auto font-medium"
+                  className="text-primary hover:text-primary-foreground hover:bg-primary transition-all duration-300 p-0 h-auto font-medium text-xs sm:text-sm"
                 >
                   Continue reading →
                 </Button>
@@ -181,19 +181,19 @@ const Blog = () => {
       </div>
 
       {/* Newsletter CTA */}
-      <div className="max-w-4xl mx-auto px-4 mt-20">
-        <Card className="bg-arteza-blush/20 border-arteza-blush text-center">
-          <CardContent className="p-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-bold text-arteza-charcoal mb-4">
+      <div className="max-w-4xl mx-auto mt-12 sm:mt-20">
+        <Card className="bg-secondary/20 border-primary/20 text-center">
+          <CardContent className="p-4 sm:p-6 lg:p-8">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-foreground mb-3 sm:mb-4">
               Never Miss a Story
             </h2>
-            <p className="text-lg text-muted-foreground mb-6">
+            <p className="text-sm sm:text-lg text-muted-foreground mb-4 sm:mb-6 px-2 sm:px-0">
               Subscribe to receive new journal entries, studio updates, and artistic musings 
               directly in your inbox.
             </p>
             <Button 
               size="lg"
-              className="bg-arteza-indigo text-white hover:bg-arteza-charcoal transition-all duration-300"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300"
             >
               Subscribe to Art Journal
             </Button>
@@ -202,14 +202,14 @@ const Blog = () => {
       </div>
 
       {/* Quote Section */}
-      <div className="max-w-4xl mx-auto px-4 mt-20">
-        <div className="text-center py-16 relative">
+      <div className="max-w-4xl mx-auto mt-12 sm:mt-20">
+        <div className="text-center py-8 sm:py-16 relative px-4 sm:px-0">
           <div className="absolute inset-0 watercolor-fade opacity-20 rounded-lg" />
-          <blockquote className="relative text-2xl md:text-3xl font-serif italic text-arteza-charcoal leading-relaxed">
+          <blockquote className="relative text-lg sm:text-2xl md:text-3xl font-serif italic text-foreground leading-relaxed">
             "Writing about art is like trying to capture moonlight in a jar - 
             impossible, but beautiful in the attempt."
           </blockquote>
-          <p className="text-lg text-arteza-indigo font-medium mt-6">— Studio Journal Entry, 2024</p>
+          <p className="text-sm sm:text-lg text-primary font-medium mt-4 sm:mt-6">— Studio Journal Entry, 2024</p>
         </div>
       </div>
     </div>
