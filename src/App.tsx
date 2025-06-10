@@ -17,7 +17,6 @@ import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
 import StudentGallery from "./pages/StudentGallery";
 import CollectorsWall from "./pages/CollectorsWall";
-import ArtTutorial from "./pages/ArtTutorial";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,7 +42,6 @@ const App = () => (
               <Route path="/payment" element={<Payment />} />
               <Route path="/student-gallery" element={<StudentGallery />} />
               <Route path="/collectors-wall" element={<CollectorsWall />} />
-              <Route path="/art-tutorial" element={<ArtTutorial />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
