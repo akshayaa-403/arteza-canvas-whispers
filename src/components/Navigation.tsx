@@ -29,23 +29,67 @@ const Navigation = () => {
       <nav className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 sm:h-20">
-            {/* Logo */}
+            {/* Artistic Logo */}
             <Link 
               to="/" 
-              className="group relative flex-shrink-0"
+              className="group relative flex-shrink-0 mr-4"
             >
-              <div className="text-2xl sm:text-3xl font-serif font-bold text-foreground hover:text-primary transition-colors duration-300 tracking-wider">
-                <span className="relative hover-brush-stroke">
-                  A
-                  <span className="text-primary">R</span>
-                  T
-                  <span className="text-primary">E</span>
-                  Z
-                  <span className="text-primary">A</span>
-                </span>
-              </div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground font-sans tracking-[0.2em] mt-0.5 sm:mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                by upasna
+              <div className="relative">
+                {/* Main logo with artistic styling */}
+                <div className="text-2xl sm:text-3xl font-serif font-bold tracking-wider transition-all duration-500 group-hover:scale-105">
+                  <span className="relative inline-block">
+                    {/* Letter A with paint brush stroke */}
+                    <span className="relative text-arteza-terracotta group-hover:text-arteza-rust transition-colors duration-300">
+                      A
+                      <span className="absolute -top-1 -right-1 w-2 h-2 bg-arteza-sage rounded-full opacity-70 animate-pulse"></span>
+                    </span>
+                    
+                    {/* Letter R with palette dot */}
+                    <span className="relative text-arteza-sage group-hover:text-arteza-moss transition-colors duration-300 mx-0.5">
+                      R
+                      <span className="absolute top-0 right-0 w-1.5 h-1.5 bg-arteza-copper rounded-full"></span>
+                    </span>
+                    
+                    {/* Letter T with brush stroke underneath */}
+                    <span className="relative text-arteza-clay group-hover:text-arteza-charcoal transition-colors duration-300">
+                      T
+                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-arteza-terracotta to-arteza-sage transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></span>
+                    </span>
+                    
+                    {/* Letter E with artistic flourish */}
+                    <span className="relative text-arteza-rust group-hover:text-arteza-terracotta transition-colors duration-300 mx-0.5">
+                      E
+                      <span className="absolute -top-0.5 left-1/2 w-1 h-1 bg-arteza-moss rounded-full transform -translate-x-1/2 opacity-60"></span>
+                    </span>
+                    
+                    {/* Letter Z with paint splash */}
+                    <span className="relative text-arteza-moss group-hover:text-arteza-sage transition-colors duration-300">
+                      Z
+                      <span className="absolute -bottom-1 -left-1 w-2 h-2 bg-arteza-terracotta rounded-full opacity-50 transform group-hover:scale-125 transition-transform duration-300"></span>
+                    </span>
+                    
+                    {/* Letter A with final artistic touch */}
+                    <span className="relative text-arteza-copper group-hover:text-arteza-rust transition-colors duration-300 ml-0.5">
+                      A
+                      <span className="absolute top-1/2 -right-2 w-3 h-0.5 bg-gradient-to-r from-arteza-sage to-transparent transform -translate-y-1/2 opacity-0 group-hover:opacity-70 transition-opacity duration-500"></span>
+                    </span>
+                  </span>
+                </div>
+                
+                {/* Artist signature with paint brush icon */}
+                <div className="flex items-center justify-center mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <span className="text-[10px] sm:text-xs text-muted-foreground font-sans tracking-[0.15em] italic">
+                    by upasna
+                  </span>
+                  <span className="ml-1 w-2 h-0.5 bg-gradient-to-r from-arteza-terracotta to-arteza-sage rounded-full"></span>
+                </div>
+                
+                {/* Artistic background elements */}
+                <div className="absolute -inset-2 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
+                  <div className="absolute top-0 left-2 w-1 h-1 bg-arteza-sage rounded-full animate-pulse"></div>
+                  <div className="absolute bottom-0 right-3 w-1.5 h-1.5 bg-arteza-terracotta rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                  <div className="absolute top-1/2 -left-1 w-0.5 h-0.5 bg-arteza-copper rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+                </div>
               </div>
             </Link>
 
@@ -57,8 +101,8 @@ const Navigation = () => {
                   to={item.path}
                   className={`px-3 py-2 text-sm font-medium transition-all duration-300 hover-brush-stroke ${
                     location.pathname === item.path
-                      ? "text-primary"
-                      : "text-foreground hover:text-primary"
+                      ? "text-arteza-terracotta font-semibold"
+                      : "text-foreground hover:text-arteza-terracotta"
                   }`}
                 >
                   {item.name}
@@ -67,13 +111,13 @@ const Navigation = () => {
             </div>
 
             {/* Right side buttons */}
-            <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
+            <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0 ml-4">
               {/* Cart Icon */}
               <Button
                 asChild
                 variant="outline"
                 size="sm"
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-background/80 backdrop-blur-sm border-border hover:bg-accent hover:text-accent-foreground transition-all duration-300"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-arteza-terracotta/30 text-arteza-terracotta hover:bg-arteza-terracotta hover:text-background transition-all duration-300"
               >
                 <Link to="/cart">
                   <ShoppingBag className="h-4 w-4" />
@@ -85,7 +129,7 @@ const Navigation = () => {
                 variant="outline"
                 size="sm"
                 onClick={toggleTheme}
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-background/80 backdrop-blur-sm border-border hover:bg-accent hover:text-accent-foreground transition-all duration-300"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-arteza-sage/30 text-arteza-sage hover:bg-arteza-sage hover:text-background transition-all duration-300"
               >
                 {theme === "light" ? (
                   <Moon className="h-4 w-4" />
@@ -100,7 +144,7 @@ const Navigation = () => {
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsOpen(!isOpen)}
-                  className="text-foreground hover:text-primary hover:bg-accent"
+                  className="text-foreground hover:text-arteza-terracotta hover:bg-arteza-terracotta/10"
                 >
                   {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                 </Button>
@@ -120,8 +164,8 @@ const Navigation = () => {
                   onClick={() => setIsOpen(false)}
                   className={`block px-3 py-2 text-base font-medium transition-all duration-300 rounded-md ${
                     location.pathname === item.path
-                      ? "text-primary bg-accent"
-                      : "text-foreground hover:text-primary hover:bg-accent"
+                      ? "text-arteza-terracotta bg-arteza-terracotta/10 font-semibold"
+                      : "text-foreground hover:text-arteza-terracotta hover:bg-arteza-terracotta/10"
                   }`}
                 >
                   {item.name}
