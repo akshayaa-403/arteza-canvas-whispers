@@ -17,6 +17,7 @@ import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
 import StudentGallery from "./pages/StudentGallery";
 import CollectorsWall from "./pages/CollectorsWall";
+import ArtTutorial from "./pages/ArtTutorial";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

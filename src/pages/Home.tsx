@@ -1,9 +1,9 @@
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ArrowDown, Palette, Users, Award } from "lucide-react";
+import { ArrowDown, Palette, Users, Award, BookOpen, ShoppingBag, MessageCircle, Sparkles, Camera, Heart, Brush, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 
@@ -74,6 +74,73 @@ const Home = () => {
     }
   ];
 
+  const features = [
+    {
+      icon: ShoppingBag,
+      title: "Art Shop",
+      description: "Browse and purchase original artworks",
+      link: "/shop",
+      color: "bg-arteza-blush",
+      textColor: "text-arteza-indigo"
+    },
+    {
+      icon: Palette,
+      title: "Commission Art",
+      description: "Work with Upasna to create a unique piece",
+      link: "/commission",
+      color: "bg-arteza-peach",
+      textColor: "text-arteza-indigo"
+    },
+    {
+      icon: BookOpen,
+      title: "AI Art Tutorials",
+      description: "Generate personalized tutorials from your images",
+      link: "/art-tutorial",
+      color: "bg-arteza-sage",
+      textColor: "text-white"
+    },
+    {
+      icon: Users,
+      title: "Student Gallery",
+      description: "Discover inspiring works from art students",
+      link: "/student-gallery",
+      color: "bg-arteza-copper",
+      textColor: "text-white"
+    },
+    {
+      icon: Heart,
+      title: "Collector's Wall",
+      description: "See how ARTEZA pieces transform homes",
+      link: "/collectors-wall",
+      color: "bg-arteza-terracotta",
+      textColor: "text-white"
+    },
+    {
+      icon: Sparkles,
+      title: "Art Style Quiz",
+      description: "Find your perfect art collection match",
+      link: "/quiz",
+      color: "bg-arteza-moss",
+      textColor: "text-white"
+    },
+    {
+      icon: MessageCircle,
+      title: "Art Blog",
+      description: "Stories, techniques, and artistic inspiration",
+      link: "/blog",
+      color: "bg-arteza-rust",
+      textColor: "text-white"
+    },
+    {
+      icon: Brush,
+      title: "About Upasna",
+      description: "Learn about the artist behind ARTEZA",
+      link: "/about",
+      color: "bg-arteza-clay",
+      textColor: "text-white"
+    }
+  ];
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -113,11 +180,52 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Collections */}
+      {/* All Features Showcase */}
       <section className="py-20 px-4 max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-serif font-bold text-arteza-charcoal mb-4">
-            Collections
+            Everything ARTEZA
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Discover all the ways to experience and engage with art through our comprehensive platform
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((feature, index) => {
+            const IconComponent = feature.icon;
+            return (
+              <Card 
+                key={feature.title}
+                className="group cursor-pointer border-arteza-blush hover:shadow-xl transition-all duration-500 hover:scale-105 overflow-hidden"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <Link to={feature.link}>
+                  <CardHeader className="text-center pb-2">
+                    <div className={`w-16 h-16 ${feature.color} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                      <IconComponent className={`h-8 w-8 ${feature.textColor}`} />
+                    </div>
+                    <CardTitle className="text-lg font-serif font-bold text-arteza-charcoal group-hover:text-arteza-indigo transition-colors">
+                      {feature.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-center pt-0">
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </CardContent>
+                </Link>
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Featured Collections */}
+      <section className="py-20 px-4 max-w-7xl mx-auto bg-arteza-blush/10">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-arteza-charcoal mb-4">
+            Featured Collections
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Each collection tells a different story, painted with intention and heart
@@ -131,32 +239,73 @@ const Home = () => {
               className="group cursor-pointer border-arteza-blush hover:shadow-lg transition-all duration-500 hover:scale-105 overflow-hidden"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="relative h-64 overflow-hidden">
-                <img
-                  src={collection.image}
-                  alt={collection.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <Badge className="absolute top-3 right-3 bg-arteza-blush text-arteza-charcoal">
-                  {collection.count}
-                </Badge>
-              </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-serif font-semibold mb-2 text-arteza-charcoal group-hover:text-arteza-indigo transition-colors">
-                  {collection.name}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {collection.description}
-                </p>
-              </CardContent>
+              <Link to="/shop">
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={collection.image}
+                    alt={collection.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <Badge className="absolute top-3 right-3 bg-arteza-blush text-arteza-charcoal">
+                    {collection.count}
+                  </Badge>
+                </div>
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-serif font-semibold mb-2 text-arteza-charcoal group-hover:text-arteza-indigo transition-colors">
+                    {collection.name}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {collection.description}
+                  </p>
+                </CardContent>
+              </Link>
             </Card>
           ))}
         </div>
       </section>
 
+      {/* AI Tutorial Highlight */}
+      <section className="py-20 px-4 bg-gradient-to-r from-arteza-sage/20 to-arteza-moss/20">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="mb-8">
+            <div className="w-20 h-20 bg-arteza-sage rounded-full flex items-center justify-center mx-auto mb-6">
+              <Zap className="h-10 w-10 text-white" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-arteza-charcoal mb-4">
+              NEW: AI Art Tutorial Generator
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Upload any image and get a personalized, step-by-step art tutorial with materials list, 
+              techniques, and pro tips. Revolutionary AI technology meets traditional artistry.
+            </p>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button 
+              asChild
+              size="lg"
+              className="bg-arteza-sage text-white hover:bg-arteza-moss transition-all duration-300 px-8 py-3 text-lg"
+            >
+              <Link to="/art-tutorial">
+                <BookOpen className="mr-2 h-5 w-5" />
+                Try AI Tutorial Generator
+              </Link>
+            </Button>
+            <Button 
+              variant="outline"
+              asChild
+              size="lg"
+              className="border-arteza-sage text-arteza-sage hover:bg-arteza-sage hover:text-white transition-all duration-300 px-8 py-3 text-lg"
+            >
+              <Link to="/blog">Learn More</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Horizontal Scroll Gallery */}
-      <section ref={galleryRef} className="py-20 bg-arteza-blush/30">
+      <section ref={galleryRef} className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-arteza-charcoal mb-8 text-center">
             Featured Artworks
@@ -169,89 +318,23 @@ const Home = () => {
                 className="flex-none w-80 group cursor-pointer"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
-                <div className="relative h-96 rounded-lg overflow-hidden">
-                  <img
-                    src={artwork.image}
-                    alt={artwork.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <h3 className="text-xl font-serif font-semibold mb-1">{artwork.title}</h3>
-                    <p className="text-lg font-medium">{artwork.price}</p>
+                <Link to="/shop">
+                  <div className="relative h-96 rounded-lg overflow-hidden">
+                    <img
+                      src={artwork.image}
+                      alt={artwork.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <h3 className="text-xl font-serif font-semibold mb-1">{artwork.title}</h3>
+                      <p className="text-lg font-medium">{artwork.price}</p>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-20 px-4 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <Card className="border-arteza-blush text-center hover:shadow-lg transition-all duration-300">
-            <CardContent className="p-8">
-              <div className="w-16 h-16 bg-arteza-blush rounded-full flex items-center justify-center mx-auto mb-6">
-                <Palette className="h-8 w-8 text-arteza-indigo" />
-              </div>
-              <h3 className="text-xl font-serif font-bold text-arteza-charcoal mb-4">
-                Commission Art
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                Work with Upasna to create a unique piece that tells your story
-              </p>
-              <Button 
-                asChild
-                variant="outline"
-                className="border-arteza-blush text-arteza-charcoal hover:bg-arteza-blush"
-              >
-                <Link to="/commission">Start Your Commission</Link>
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="border-arteza-blush text-center hover:shadow-lg transition-all duration-300">
-            <CardContent className="p-8">
-              <div className="w-16 h-16 bg-arteza-peach rounded-full flex items-center justify-center mx-auto mb-6">
-                <Users className="h-8 w-8 text-arteza-indigo" />
-              </div>
-              <h3 className="text-xl font-serif font-bold text-arteza-charcoal mb-4">
-                Student Gallery
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                Discover inspiring works from Upasna's art students
-              </p>
-              <Button 
-                asChild
-                variant="outline"
-                className="border-arteza-blush text-arteza-charcoal hover:bg-arteza-blush"
-              >
-                <Link to="/student-gallery">View Gallery</Link>
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="border-arteza-blush text-center hover:shadow-lg transition-all duration-300">
-            <CardContent className="p-8">
-              <div className="w-16 h-16 bg-arteza-ivory rounded-full flex items-center justify-center mx-auto mb-6">
-                <Award className="h-8 w-8 text-arteza-indigo" />
-              </div>
-              <h3 className="text-xl font-serif font-bold text-arteza-charcoal mb-4">
-                Collector's Wall
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                See how ARTEZA pieces transform homes across India
-              </p>
-              <Button 
-                asChild
-                variant="outline"
-                className="border-arteza-blush text-arteza-charcoal hover:bg-arteza-blush"
-              >
-                <Link to="/collectors-wall">See Stories</Link>
-              </Button>
-            </CardContent>
-          </Card>
         </div>
       </section>
 
