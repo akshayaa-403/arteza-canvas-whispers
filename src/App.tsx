@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -17,6 +16,7 @@ import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
 import StudentGallery from "./pages/StudentGallery";
 import CollectorsWall from "./pages/CollectorsWall";
+import ArtClasses from "./pages/ArtClasses";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +42,7 @@ const App = () => (
               <Route path="/payment" element={<Payment />} />
               <Route path="/student-gallery" element={<StudentGallery />} />
               <Route path="/collectors-wall" element={<CollectorsWall />} />
+              <Route path="/art-classes" element={<ArtClasses />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
