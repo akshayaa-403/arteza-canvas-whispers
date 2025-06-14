@@ -1,13 +1,16 @@
+
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
-import { Menu, X, Sun, Moon, ShoppingBag } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { Menu, X, Sun, Moon, ShoppingBag, User, LogOut } from "lucide-react";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { theme, setTheme } = useTheme();
+  const { user, signOut } = useAuth();
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -21,6 +24,10 @@ const Navigation = () => {
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
   };
 
   return (
@@ -124,6 +131,39 @@ const Navigation = () => {
                 </Link>
               </Button>
 
+              {/* User Authentication */}
+              {user ? (
+                <div className="flex items-center space-x-2">
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="sm"
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-arteza-sage/30 text-arteza-sage hover:bg-arteza-sage hover:text-background transition-all duration-300"
+                  >
+                    <Link to="/student-dashboard">
+                      <User className="h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleSignOut}
+                    className="hidden sm:flex w-9 h-9 sm:w-10 sm:h-10 rounded-full border-red-300 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300"
+                  >
+                    <LogOut className="h-4 w-4" />
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="hidden sm:flex px-4 border-arteza-sage/30 text-arteza-sage hover:bg-arteza-sage hover:text-background transition-all duration-300"
+                >
+                  <Link to="/auth">Sign In</Link>
+                </Button>
+              )}
+
               {/* Theme Toggle */}
               <Button
                 variant="outline"
@@ -171,6 +211,36 @@ const Navigation = () => {
                   {item.name}
                 </Link>
               ))}
+              
+              {/* Mobile Auth Links */}
+              {user ? (
+                <>
+                  <Link
+                    to="/student-dashboard"
+                    onClick={() => setIsOpen(false)}
+                    className="block px-3 py-2 text-base font-medium text-foreground hover:text-arteza-sage hover:bg-arteza-sage/10 rounded-md"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleSignOut();
+                      setIsOpen(false);
+                    }}
+                    className="block w-full text-left px-3 py-2 text-base font-medium text-red-500 hover:bg-red-50 rounded-md"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/auth"
+                  onClick={() => setIsOpen(false)}
+                  className="block px-3 py-2 text-base font-medium text-arteza-sage hover:text-arteza-sage hover:bg-arteza-sage/10 rounded-md"
+                >
+                  Sign In / Sign Up
+                </Link>
+              )}
             </div>
           </div>
         )}

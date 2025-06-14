@@ -9,7 +9,230 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      artworks: {
+        Row: {
+          availability_status: string
+          collection_name: string | null
+          created_at: string
+          created_year: number | null
+          description: string | null
+          dominant_colors: string[] | null
+          id: string
+          image_url: string
+          mood_tags: string[] | null
+          price: number | null
+          size_category: string | null
+          technique: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          availability_status?: string
+          collection_name?: string | null
+          created_at?: string
+          created_year?: number | null
+          description?: string | null
+          dominant_colors?: string[] | null
+          id?: string
+          image_url: string
+          mood_tags?: string[] | null
+          price?: number | null
+          size_category?: string | null
+          technique?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          availability_status?: string
+          collection_name?: string | null
+          created_at?: string
+          created_year?: number | null
+          description?: string | null
+          dominant_colors?: string[] | null
+          id?: string
+          image_url?: string
+          mood_tags?: string[] | null
+          price?: number | null
+          size_category?: string | null
+          technique?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      class_bookings: {
+        Row: {
+          booking_status: string
+          class_schedule_id: string
+          created_at: string
+          id: string
+          payment_status: string
+          special_requests: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          booking_status?: string
+          class_schedule_id: string
+          created_at?: string
+          id?: string
+          payment_status?: string
+          special_requests?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          booking_status?: string
+          class_schedule_id?: string
+          created_at?: string
+          id?: string
+          payment_status?: string
+          special_requests?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_bookings_class_schedule_id_fkey"
+            columns: ["class_schedule_id"]
+            isOneToOne: false
+            referencedRelation: "class_schedules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      class_schedules: {
+        Row: {
+          age_group: string
+          class_title: string
+          class_type: string
+          created_at: string
+          current_enrollments: number | null
+          end_time: string
+          id: string
+          instructor_name: string
+          materials_list: string[] | null
+          max_students: number
+          scheduled_date: string
+          start_time: string
+          status: string
+          updated_at: string
+          zoom_link: string | null
+        }
+        Insert: {
+          age_group: string
+          class_title: string
+          class_type: string
+          created_at?: string
+          current_enrollments?: number | null
+          end_time: string
+          id?: string
+          instructor_name?: string
+          materials_list?: string[] | null
+          max_students?: number
+          scheduled_date: string
+          start_time: string
+          status?: string
+          updated_at?: string
+          zoom_link?: string | null
+        }
+        Update: {
+          age_group?: string
+          class_title?: string
+          class_type?: string
+          created_at?: string
+          current_enrollments?: number | null
+          end_time?: string
+          id?: string
+          instructor_name?: string
+          materials_list?: string[] | null
+          max_students?: number
+          scheduled_date?: string
+          start_time?: string
+          status?: string
+          updated_at?: string
+          zoom_link?: string | null
+        }
+        Relationships: []
+      }
+      email_subscribers: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          last_email_sent: string | null
+          name: string | null
+          preferences: Json | null
+          subscription_source: string | null
+          subscription_status: string
+          updated_at: string
+          welcome_series_completed: boolean | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          last_email_sent?: string | null
+          name?: string | null
+          preferences?: Json | null
+          subscription_source?: string | null
+          subscription_status?: string
+          updated_at?: string
+          welcome_series_completed?: boolean | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          last_email_sent?: string | null
+          name?: string | null
+          preferences?: Json | null
+          subscription_source?: string | null
+          subscription_status?: string
+          updated_at?: string
+          welcome_series_completed?: boolean | null
+        }
+        Relationships: []
+      }
+      student_enrollments: {
+        Row: {
+          class_type: string
+          completion_status: string
+          created_at: string
+          enrollment_date: string
+          id: string
+          notes: string | null
+          progress_percentage: number | null
+          skills_learned: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          class_type: string
+          completion_status?: string
+          created_at?: string
+          enrollment_date?: string
+          id?: string
+          notes?: string | null
+          progress_percentage?: number | null
+          skills_learned?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          class_type?: string
+          completion_status?: string
+          created_at?: string
+          enrollment_date?: string
+          id?: string
+          notes?: string | null
+          progress_percentage?: number | null
+          skills_learned?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

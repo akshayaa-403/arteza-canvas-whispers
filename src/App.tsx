@@ -18,6 +18,10 @@ import StudentGallery from "./pages/StudentGallery";
 import CollectorsWall from "./pages/CollectorsWall";
 import ArtClasses from "./pages/ArtClasses";
 import NotFound from "./pages/NotFound";
+import EnhancedShop from "./pages/EnhancedShop";
+import Auth from "./pages/Auth";
+import StudentDashboard from "./pages/StudentDashboard";
+import ClassScheduler from "./pages/ClassScheduler";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +36,7 @@ const App = () => (
             <Navigation />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/shop" element={<Shop />} />
+              <Route path="/shop" element={<EnhancedShop />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/blog" element={<Blog />} />
@@ -43,6 +47,9 @@ const App = () => (
               <Route path="/student-gallery" element={<StudentGallery />} />
               <Route path="/collectors-wall" element={<CollectorsWall />} />
               <Route path="/art-classes" element={<ArtClasses />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/student-dashboard" element={<StudentDashboard />} />
+              <Route path="/class-scheduler" element={<ClassScheduler />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
