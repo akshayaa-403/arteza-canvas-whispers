@@ -1,9 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ArrowDown, Palette, Users, Award, BookOpen, ShoppingBag, MessageCircle, Sparkles, Camera, Heart, Brush, Zap } from "lucide-react";
+import { ArrowDown, Palette, Users, Award, BookOpen, ShoppingBag, MessageCircle, Sparkles, Camera, Heart, Brush, Video } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 
@@ -93,9 +92,9 @@ const Home = () => {
     },
     {
       icon: BookOpen,
-      title: "AI Art Tutorials",
-      description: "Generate personalized tutorials from your images",
-      link: "/art-tutorial",
+      title: "Art Classes",
+      description: "Join live Zoom sessions with personalized guidance",
+      link: "/art-classes",
       color: "bg-arteza-sage",
       textColor: "text-white"
     },
@@ -265,19 +264,19 @@ const Home = () => {
         </div>
       </section>
 
-      {/* AI Tutorial Highlight */}
+      {/* Art Classes Highlight */}
       <section className="py-20 px-4 bg-gradient-to-r from-arteza-sage/20 to-arteza-moss/20">
         <div className="max-w-4xl mx-auto text-center">
           <div className="mb-8">
             <div className="w-20 h-20 bg-arteza-sage rounded-full flex items-center justify-center mx-auto mb-6">
-              <Zap className="h-10 w-10 text-white" />
+              <Video className="h-10 w-10 text-white" />
             </div>
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-arteza-charcoal mb-4">
-              NEW: AI Art Tutorial Generator
+              Live Art Classes on Zoom
             </h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Upload any image and get a personalized, step-by-step art tutorial with materials list, 
-              techniques, and pro tips. Revolutionary AI technology meets traditional artistry.
+              Join intimate Zoom sessions with Upasna, tailored for every age group. From creative kids to seniors rediscovering art, 
+              find your perfect class with personalized guidance and small group sizes.
             </p>
           </div>
           
@@ -287,9 +286,9 @@ const Home = () => {
               size="lg"
               className="bg-arteza-sage text-white hover:bg-arteza-moss transition-all duration-300 px-8 py-3 text-lg"
             >
-              <Link to="/art-tutorial">
+              <Link to="/art-classes">
                 <BookOpen className="mr-2 h-5 w-5" />
-                Try AI Tutorial Generator
+                Explore Art Classes
               </Link>
             </Button>
             <Button 
@@ -298,7 +297,7 @@ const Home = () => {
               size="lg"
               className="border-arteza-sage text-arteza-sage hover:bg-arteza-sage hover:text-white transition-all duration-300 px-8 py-3 text-lg"
             >
-              <Link to="/blog">Learn More</Link>
+              <Link to="/contact">Contact Upasna</Link>
             </Button>
           </div>
         </div>
