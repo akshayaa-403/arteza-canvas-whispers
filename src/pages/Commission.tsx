@@ -2,13 +2,15 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { useFormValidation, ValidationRules } from "@/hooks/useFormValidation";
+import { ValidatedInput } from "@/components/ValidatedInput";
+import { ValidatedTextarea } from "@/components/ValidatedTextarea";
+import { useToast } from "@/hooks/use-toast";
 
 const Commission = () => {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,6 +21,44 @@ const Commission = () => {
     timeline: "",
     description: ""
   });
+
+  const validationRules: ValidationRules = {
+    name: {
+      required: true,
+      minLength: 2,
+      maxLength: 50
+    },
+    email: {
+      required: true,
+      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    },
+    theme: {
+      required: true,
+      minLength: 3,
+      maxLength: 100
+    },
+    description: {
+      required: true,
+      minLength: 20,
+      maxLength: 500,
+      custom: (value: string) => {
+        const wordCount = value.trim().split(/\s+/).length;
+        if (wordCount < 10) {
+          return 'Please provide more details (at least 10 words)';
+        }
+        return null;
+      }
+    }
+  };
+
+  const {
+    errors,
+    touched,
+    validateAllFields,
+    handleFieldChange,
+    handleFieldBlur,
+    clearErrors
+  } = useFormValidation(validationRules);
 
   const pastCommissions = [
     {
@@ -45,12 +85,54 @@ const Commission = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateAllFields(formData)) {
+      toast({
+        title: "Please fix the errors",
+        description: "Make sure all required fields are filled correctly.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Check if required dropdowns are selected
+    if (!formData.size || !formData.medium || !formData.budget || !formData.timeline) {
+      toast({
+        title: "Missing information",
+        description: "Please select all required options from the dropdowns.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     // Handle form submission
     console.log("Commission request:", formData);
+    toast({
+      title: "Commission request submitted!",
+      description: "Thank you for your request. I'll get back to you within 24 hours.",
+    });
+    
+    // Reset form
+    setFormData({
+      name: "",
+      email: "",
+      size: "",
+      medium: "",
+      budget: "",
+      theme: "",
+      timeline: "",
+      description: ""
+    });
+    clearErrors();
   };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    handleFieldChange(field, value);
+  };
+
+  const handleInputBlur = (field: string) => {
+    handleFieldBlur(field, formData[field as keyof typeof formData]);
   };
 
   return (
@@ -78,32 +160,39 @@ const Commission = () => {
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="name">Your Name</Label>
-                      <Input
-                        id="name"
-                        value={formData.name}
-                        onChange={(e) => handleInputChange("name", e.target.value)}
-                        className="border-arteza-blush focus:border-arteza-indigo"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange("email", e.target.value)}
-                        className="border-arteza-blush focus:border-arteza-indigo"
-                        required
-                      />
-                    </div>
+                    <ValidatedInput
+                      id="name"
+                      label="Your Name"
+                      value={formData.name}
+                      onChange={(value) => handleInputChange("name", value)}
+                      onBlur={() => handleInputBlur("name")}
+                      error={errors.name}
+                      touched={touched.name}
+                      required
+                      placeholder="Enter your full name"
+                      helpText="This will appear on your commission agreement"
+                    />
+                    
+                    <ValidatedInput
+                      id="email"
+                      label="Email Address"
+                      type="email"
+                      value={formData.email}
+                      onChange={(value) => handleInputChange("email", value)}
+                      onBlur={() => handleInputBlur("email")}
+                      error={errors.email}
+                      touched={touched.email}
+                      required
+                      placeholder="your@email.com"
+                      helpText="I'll use this to send you updates and the final artwork"
+                    />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label>Preferred Size</Label>
+                      <label className="text-sm font-medium mb-2 block">
+                        Preferred Size <span className="text-red-500">*</span>
+                      </label>
                       <Select value={formData.size} onValueChange={(value) => handleInputChange("size", value)}>
                         <SelectTrigger className="border-arteza-blush">
                           <SelectValue placeholder="Select size" />
@@ -119,7 +208,9 @@ const Commission = () => {
                       </Select>
                     </div>
                     <div>
-                      <Label>Medium</Label>
+                      <label className="text-sm font-medium mb-2 block">
+                        Medium <span className="text-red-500">*</span>
+                      </label>
                       <Select value={formData.medium} onValueChange={(value) => handleInputChange("medium", value)}>
                         <SelectTrigger className="border-arteza-blush">
                           <SelectValue placeholder="Select medium" />
@@ -137,7 +228,9 @@ const Commission = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label>Budget Range (₹)</Label>
+                      <label className="text-sm font-medium mb-2 block">
+                        Budget Range (₹) <span className="text-red-500">*</span>
+                      </label>
                       <Select value={formData.budget} onValueChange={(value) => handleInputChange("budget", value)}>
                         <SelectTrigger className="border-arteza-blush">
                           <SelectValue placeholder="Select budget" />
@@ -152,7 +245,9 @@ const Commission = () => {
                       </Select>
                     </div>
                     <div>
-                      <Label>Timeline</Label>
+                      <label className="text-sm font-medium mb-2 block">
+                        Timeline <span className="text-red-500">*</span>
+                      </label>
                       <Select value={formData.timeline} onValueChange={(value) => handleInputChange("timeline", value)}>
                         <SelectTrigger className="border-arteza-blush">
                           <SelectValue placeholder="Select timeline" />
@@ -167,28 +262,35 @@ const Commission = () => {
                     </div>
                   </div>
 
-                  <div>
-                    <Label htmlFor="theme">Theme or Concept</Label>
-                    <Input
-                      id="theme"
-                      value={formData.theme}
-                      onChange={(e) => handleInputChange("theme", e.target.value)}
-                      placeholder="e.g., Family portrait, Abstract emotion, Cultural heritage..."
-                      className="border-arteza-blush focus:border-arteza-indigo"
-                    />
-                  </div>
+                  <ValidatedInput
+                    id="theme"
+                    label="Theme or Concept"
+                    value={formData.theme}
+                    onChange={(value) => handleInputChange("theme", value)}
+                    onBlur={() => handleInputBlur("theme")}
+                    error={errors.theme}
+                    touched={touched.theme}
+                    required
+                    placeholder="e.g., Family portrait, Abstract emotion, Cultural heritage..."
+                    maxLength={100}
+                    showCharCount
+                    helpText="What's the main subject or feeling you want to capture?"
+                  />
 
-                  <div>
-                    <Label htmlFor="description">Describe Your Vision</Label>
-                    <Textarea
-                      id="description"
-                      value={formData.description}
-                      onChange={(e) => handleInputChange("description", e.target.value)}
-                      placeholder="Tell me more about what you envision. What emotions, memories, or stories should this piece capture?"
-                      rows={4}
-                      className="border-arteza-blush focus:border-arteza-indigo"
-                    />
-                  </div>
+                  <ValidatedTextarea
+                    id="description"
+                    label="Describe Your Vision"
+                    value={formData.description}
+                    onChange={(value) => handleInputChange("description", value)}
+                    onBlur={() => handleInputBlur("description")}
+                    error={errors.description}
+                    touched={touched.description}
+                    required
+                    placeholder="Tell me more about what you envision. What emotions, memories, or stories should this piece capture? Include any specific details, colors, or elements you'd like to see..."
+                    maxLength={500}
+                    rows={4}
+                    helpText="The more details you provide, the better I can bring your vision to life"
+                  />
 
                   <Button 
                     type="submit"
