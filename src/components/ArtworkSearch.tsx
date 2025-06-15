@@ -1,10 +1,10 @@
+
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
 import { Search, Filter, X, Heart, ShoppingCart, Palette } from "lucide-react";
 import { toast } from "sonner";
 import { useCart } from "@/hooks/useCart";
@@ -34,10 +34,161 @@ interface SearchFilters {
   priceRange: string;
 }
 
+// New artwork data with uploaded images
+const ARTWORK_DATA: Artwork[] = [
+  // Abstract Expressions Collection
+  {
+    id: "abs-1",
+    title: "Flowing Harmony",
+    description: "Dynamic abstract composition with flowing forms in vibrant blues and warm yellows",
+    image_url: "/lovable-uploads/4aca53da-8e86-4b79-9512-bb3f47b5bfaf.png",
+    collection_name: "Abstract Expressions",
+    dominant_colors: ["blue", "yellow", "orange"],
+    mood_tags: ["energetic", "flowing", "vibrant"],
+    size_category: "medium",
+    price: 18500,
+    availability_status: "available",
+    technique: "Acrylic on Canvas",
+    created_year: 2024
+  },
+  {
+    id: "abs-2",
+    title: "Geometric Dreams",
+    description: "Bold geometric blocks intersecting with organic forms in a contemporary style",
+    image_url: "/lovable-uploads/a1cbe5a2-9372-4cfe-bd94-df0d009afee3.png",
+    collection_name: "Abstract Expressions",
+    dominant_colors: ["green", "blue", "yellow"],
+    mood_tags: ["structured", "modern", "bold"],
+    size_category: "large",
+    price: 22000,
+    availability_status: "available",
+    technique: "Mixed Media",
+    created_year: 2024
+  },
+  {
+    id: "abs-3",
+    title: "Fire Dance",
+    description: "Passionate brushstrokes create a dance of fire and energy in orange and blue",
+    image_url: "/lovable-uploads/2daffa9b-eefe-4c41-b3bd-ff506744d738.png",
+    collection_name: "Abstract Expressions",
+    dominant_colors: ["orange", "blue", "black"],
+    mood_tags: ["passionate", "dynamic", "intense"],
+    size_category: "medium",
+    price: 16500,
+    availability_status: "available",
+    technique: "Acrylic on Canvas",
+    created_year: 2024
+  },
+  {
+    id: "abs-4",
+    title: "Urban Energy",
+    description: "Explosive abstract composition capturing the energy of urban life",
+    image_url: "/lovable-uploads/706133f8-6530-4710-ba9a-bf35c01a6226.png",
+    collection_name: "Abstract Expressions",
+    dominant_colors: ["blue", "red", "white"],
+    mood_tags: ["energetic", "urban", "explosive"],
+    size_category: "large",
+    price: 19500,
+    availability_status: "available",
+    technique: "Acrylic on Canvas",
+    created_year: 2024
+  },
+  
+  // Dreamscape Collection
+  {
+    id: "dream-1",
+    title: "Eternal Embrace",
+    description: "An intimate moment captured against a backdrop of geometric dreams and floral beauty",
+    image_url: "/lovable-uploads/ae9ada26-59ac-4fb5-b908-3036ec05f3de.png",
+    collection_name: "Dreamscape",
+    dominant_colors: ["green", "pink", "blue"],
+    mood_tags: ["romantic", "intimate", "dreamy"],
+    size_category: "large",
+    price: 28000,
+    availability_status: "available",
+    technique: "Oil on Canvas",
+    created_year: 2024
+  },
+  
+  // Cultural Chronicles Collection
+  {
+    id: "cult-1",
+    title: "Silent Strength",
+    description: "A powerful portrait capturing inner strength and contemplation",
+    image_url: "/lovable-uploads/01240ce5-9b46-4aef-9ba5-06d2e0ea87e1.png",
+    collection_name: "Cultural Chronicles",
+    dominant_colors: ["black", "white", "red"],
+    mood_tags: ["contemplative", "strong", "mysterious"],
+    size_category: "medium",
+    price: 24000,
+    availability_status: "available",
+    technique: "Oil on Canvas",
+    created_year: 2024
+  },
+  {
+    id: "cult-2",
+    title: "Floral Mystique",
+    description: "Decorative portrait blending traditional beauty with contemporary floral elements",
+    image_url: "/lovable-uploads/63aa7c78-e8d3-483d-a655-851f38c1daf6.png",
+    collection_name: "Cultural Chronicles",
+    dominant_colors: ["blue", "gold", "white"],
+    mood_tags: ["elegant", "decorative", "mystical"],
+    size_category: "large",
+    price: 32000,
+    availability_status: "available",
+    technique: "Acrylic on Canvas",
+    created_year: 2024
+  },
+  {
+    id: "cult-3",
+    title: "Heritage Spirit",
+    description: "Traditional Indian art celebrating cultural heritage with intricate patterns",
+    image_url: "/lovable-uploads/ab19cde5-c0a6-471f-88d1-783cc0b815b5.png",
+    collection_name: "Cultural Chronicles",
+    dominant_colors: ["yellow", "red", "blue"],
+    mood_tags: ["traditional", "cultural", "ornate"],
+    size_category: "large",
+    price: 35000,
+    availability_status: "available",
+    technique: "Traditional Pigments",
+    created_year: 2024
+  },
+  
+  // Nature's Palette Collection
+  {
+    id: "nature-1",
+    title: "Mountain Serenity",
+    description: "Peaceful mountain landscape with delicate cherry blossoms in traditional style",
+    image_url: "/lovable-uploads/e55e93b3-d6d7-4f5c-81ae-d979fcad858d.png",
+    collection_name: "Nature's Palette",
+    dominant_colors: ["blue", "white", "pink"],
+    mood_tags: ["serene", "peaceful", "natural"],
+    size_category: "medium",
+    price: 21000,
+    availability_status: "available",
+    technique: "Watercolor",
+    created_year: 2024
+  },
+  {
+    id: "nature-2",
+    title: "Garden's Bounty",
+    description: "Vibrant still life celebrating nature's abundance with flowers and wine",
+    image_url: "/lovable-uploads/f8087b88-83bd-4776-b209-f089d65397c0.png",
+    collection_name: "Nature's Palette",
+    dominant_colors: ["yellow", "blue", "purple"],
+    mood_tags: ["abundant", "celebratory", "warm"],
+    size_category: "medium",
+    price: 17500,
+    availability_status: "available",
+    technique: "Oil on Canvas",
+    created_year: 2024
+  }
+];
+
 const ArtworkSearch = () => {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
   const [filteredArtworks, setFilteredArtworks] = useState<Artwork[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState<SearchFilters>({
     query: '',
     collection: 'all-collections',
@@ -48,7 +199,6 @@ const ArtworkSearch = () => {
     priceRange: 'all-prices'
   });
   const [showFilters, setShowFilters] = useState(false);
-  const [favorites, setFavorites] = useState<Set<string>>(new Set());
 
   // Get unique filter options
   const collections = [...new Set(artworks.map(a => a.collection_name).filter(Boolean))];
@@ -59,30 +209,14 @@ const ArtworkSearch = () => {
   const { addToCart, toggleWishlist, isInWishlist } = useCart();
 
   useEffect(() => {
-    fetchArtworks();
+    // Load artwork data immediately
+    setArtworks(ARTWORK_DATA);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
     applyFilters();
   }, [filters, artworks]);
-
-  const fetchArtworks = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("artworks")
-        .select("*")
-        .eq("availability_status", "available")
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-      setArtworks(data || []);
-    } catch (error) {
-      console.error("Error fetching artworks:", error);
-      toast.error("Failed to load artworks");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const applyFilters = () => {
     let filtered = artworks;
@@ -131,10 +265,10 @@ const ArtworkSearch = () => {
       filtered = filtered.filter(artwork => {
         const price = artwork.price || 0;
         switch (filters.priceRange) {
-          case 'under-5000': return price < 5000;
-          case '5000-10000': return price >= 5000 && price <= 10000;
-          case '10000-20000': return price > 10000 && price <= 20000;
-          case 'over-20000': return price > 20000;
+          case 'under-15000': return price < 15000;
+          case '15000-25000': return price >= 15000 && price <= 25000;
+          case '25000-35000': return price > 25000 && price <= 35000;
+          case 'over-35000': return price > 35000;
           default: return true;
         }
       });
@@ -156,20 +290,6 @@ const ArtworkSearch = () => {
       size: 'all-sizes',
       technique: 'all-techniques',
       priceRange: 'all-prices'
-    });
-  };
-
-  const toggleFavorite = (artworkId: string) => {
-    setFavorites(prev => {
-      const newFavorites = new Set(prev);
-      if (newFavorites.has(artworkId)) {
-        newFavorites.delete(artworkId);
-        toast.success("Removed from favorites");
-      } else {
-        newFavorites.add(artworkId);
-        toast.success("Added to favorites");
-      }
-      return newFavorites;
     });
   };
 
@@ -321,10 +441,10 @@ const ArtworkSearch = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all-prices">All Prices</SelectItem>
-                    <SelectItem value="under-5000">Under ₹5,000</SelectItem>
-                    <SelectItem value="5000-10000">₹5,000 - ₹10,000</SelectItem>
-                    <SelectItem value="10000-20000">₹10,000 - ₹20,000</SelectItem>
-                    <SelectItem value="over-20000">Over ₹20,000</SelectItem>
+                    <SelectItem value="under-15000">Under ₹15,000</SelectItem>
+                    <SelectItem value="15000-25000">₹15,000 - ₹25,000</SelectItem>
+                    <SelectItem value="25000-35000">₹25,000 - ₹35,000</SelectItem>
+                    <SelectItem value="over-35000">Over ₹35,000</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
