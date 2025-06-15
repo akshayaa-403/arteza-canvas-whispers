@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -33,7 +34,11 @@ interface SearchFilters {
   priceRange: string;
 }
 
-// New artwork data with all 20 pieces (10 from 1/3 + 10 from 2/3)
+interface ArtworkSearchProps {
+  viewMode?: 'grid' | 'list';
+}
+
+// Complete artwork data with all 30 pieces (10 from each set)
 const ARTWORK_DATA: Artwork[] = [
   // 1/3 Collection - Abstract Expressions
   {
@@ -92,6 +97,34 @@ const ARTWORK_DATA: Artwork[] = [
     technique: "Acrylic on Canvas",
     created_year: 2024
   },
+  {
+    id: "abs-5",
+    title: "Urban Reverie",
+    description: "Modern cityscape rendered in ethereal blues and purples, capturing urban dreams",
+    image_url: "/lovable-uploads/2fdc10b4-ffea-4489-add4-4f8c675abe02.png",
+    collection_name: "Abstract Expressions",
+    dominant_colors: ["blue", "purple", "white"],
+    mood_tags: ["modern", "urban", "atmospheric"],
+    size_category: "large",
+    price: 26000,
+    availability_status: "available",
+    technique: "Acrylic on Canvas",
+    created_year: 2024
+  },
+  {
+    id: "abs-6",
+    title: "Metropolitan Blues",
+    description: "Vibrant cityscape with towering buildings against a dramatic blue sky",
+    image_url: "/lovable-uploads/d3e9dadb-b15f-4127-a1a7-072ba2f94ff8.png",
+    collection_name: "Abstract Expressions",
+    dominant_colors: ["blue", "orange", "white"],
+    mood_tags: ["urban", "dramatic", "architectural"],
+    size_category: "large",
+    price: 28000,
+    availability_status: "available",
+    technique: "Acrylic on Canvas",
+    created_year: 2024
+  },
   
   // 1/3 Collection - Dreamscape
   {
@@ -104,6 +137,62 @@ const ARTWORK_DATA: Artwork[] = [
     mood_tags: ["romantic", "intimate", "dreamy"],
     size_category: "large",
     price: 28000,
+    availability_status: "available",
+    technique: "Oil on Canvas",
+    created_year: 2024
+  },
+  {
+    id: "dream-2",
+    title: "Mystic Stallion",
+    description: "An ethereal white horse galloping through a dreamlike sunset landscape",
+    image_url: "/lovable-uploads/3cba9e2c-f145-4a4e-a4b7-70e4d8b2dc57.png",
+    collection_name: "Dreamscape",
+    dominant_colors: ["white", "orange", "blue"],
+    mood_tags: ["ethereal", "mystical", "powerful"],
+    size_category: "large",
+    price: 31000,
+    availability_status: "available",
+    technique: "Oil on Canvas",
+    created_year: 2024
+  },
+  {
+    id: "dream-3",
+    title: "Golden Serenity",
+    description: "Peaceful portrait of a woman in contemplative grace with golden tones",
+    image_url: "/lovable-uploads/895e49c8-d33b-4e31-9371-edf109d7092a.png",
+    collection_name: "Dreamscape",
+    dominant_colors: ["gold", "red", "blue"],
+    mood_tags: ["serene", "contemplative", "graceful"],
+    size_category: "medium",
+    price: 26000,
+    availability_status: "available",
+    technique: "Oil on Canvas",
+    created_year: 2024
+  },
+  {
+    id: "dream-4",
+    title: "Ethereal Beauty",
+    description: "Soft portrait capturing feminine grace with flowing hair and gentle expression",
+    image_url: "/lovable-uploads/52141c2d-547e-4d93-8bbd-5ca59e215373.png",
+    collection_name: "Dreamscape",
+    dominant_colors: ["brown", "blue", "white"],
+    mood_tags: ["gentle", "feminine", "ethereal"],
+    size_category: "medium",
+    price: 24000,
+    availability_status: "available",
+    technique: "Oil on Canvas",
+    created_year: 2024
+  },
+  {
+    id: "dream-5",
+    title: "Icon of Grace",
+    description: "Classic portrait inspired by timeless beauty and golden age glamour",
+    image_url: "/lovable-uploads/ebc8450a-e8b8-4088-beda-c16dedc7c165.png",
+    collection_name: "Dreamscape",
+    dominant_colors: ["gold", "blue", "red"],
+    mood_tags: ["glamorous", "iconic", "timeless"],
+    size_category: "medium",
+    price: 29000,
     availability_status: "available",
     technique: "Oil on Canvas",
     created_year: 2024
@@ -152,70 +241,6 @@ const ARTWORK_DATA: Artwork[] = [
     technique: "Traditional Pigments",
     created_year: 2024
   },
-  
-  // 1/3 Collection - Nature's Palette
-  {
-    id: "nature-1",
-    title: "Mountain Serenity",
-    description: "Peaceful mountain landscape with delicate cherry blossoms in traditional style",
-    image_url: "/lovable-uploads/e55e93b3-d6d7-4f5c-81ae-d979fcad858d.png",
-    collection_name: "Nature's Palette",
-    dominant_colors: ["blue", "white", "pink"],
-    mood_tags: ["serene", "peaceful", "natural"],
-    size_category: "medium",
-    price: 21000,
-    availability_status: "available",
-    technique: "Watercolor",
-    created_year: 2024
-  },
-  {
-    id: "nature-2",
-    title: "Garden's Bounty",
-    description: "Vibrant still life celebrating nature's abundance with flowers and wine",
-    image_url: "/lovable-uploads/f8087b88-83bd-4776-b209-f089d65397c0.png",
-    collection_name: "Nature's Palette",
-    dominant_colors: ["yellow", "blue", "purple"],
-    mood_tags: ["abundant", "celebratory", "warm"],
-    size_category: "medium",
-    price: 17500,
-    availability_status: "available",
-    technique: "Oil on Canvas",
-    created_year: 2024
-  },
-
-  // 2/3 Collection - Abstract Expressions
-  {
-    id: "abs-5",
-    title: "Urban Reverie",
-    description: "Modern cityscape rendered in ethereal blues and purples, capturing urban dreams",
-    image_url: "/lovable-uploads/2fdc10b4-ffea-4489-add4-4f8c675abe02.png",
-    collection_name: "Abstract Expressions",
-    dominant_colors: ["blue", "purple", "white"],
-    mood_tags: ["modern", "urban", "atmospheric"],
-    size_category: "large",
-    price: 26000,
-    availability_status: "available",
-    technique: "Acrylic on Canvas",
-    created_year: 2024
-  },
-
-  // 2/3 Collection - Dreamscape
-  {
-    id: "dream-2",
-    title: "Mystic Stallion",
-    description: "An ethereal white horse galloping through a dreamlike sunset landscape",
-    image_url: "/lovable-uploads/3cba9e2c-f145-4a4e-a4b7-70e4d8b2dc57.png",
-    collection_name: "Dreamscape",
-    dominant_colors: ["white", "orange", "blue"],
-    mood_tags: ["ethereal", "mystical", "powerful"],
-    size_category: "large",
-    price: 31000,
-    availability_status: "available",
-    technique: "Oil on Canvas",
-    created_year: 2024
-  },
-
-  // 2/3 Collection - Cultural Chronicles
   {
     id: "cult-4",
     title: "Divine Visage",
@@ -286,8 +311,92 @@ const ARTWORK_DATA: Artwork[] = [
     technique: "Mixed Media",
     created_year: 2024
   },
-
-  // 2/3 Collection - Nature's Palette
+  {
+    id: "cult-9",
+    title: "Ancient Warrior",
+    description: "Traditional Indian warrior depicted with ornate decorations and rich golden tones",
+    image_url: "/lovable-uploads/4185a1bb-5dd9-464d-88b7-16aa4f3d0825.png",
+    collection_name: "Cultural Chronicles",
+    dominant_colors: ["gold", "orange", "brown"],
+    mood_tags: ["traditional", "regal", "powerful"],
+    size_category: "large",
+    price: 36000,
+    availability_status: "available",
+    technique: "Traditional Pigments",
+    created_year: 2024
+  },
+  {
+    id: "cult-10",
+    title: "Spiritual Portrait",
+    description: "Detailed pencil portrait capturing spiritual essence and inner peace",
+    image_url: "/lovable-uploads/a60aa9d2-d666-47cb-9ebb-d23db15a98a5.png",
+    collection_name: "Cultural Chronicles",
+    dominant_colors: ["black", "white", "gray"],
+    mood_tags: ["spiritual", "peaceful", "detailed"],
+    size_category: "medium",
+    price: 18000,
+    availability_status: "available",
+    technique: "Graphite on Paper",
+    created_year: 2024
+  },
+  {
+    id: "cult-11",
+    title: "Joyful Embrace",
+    description: "Heartwarming pencil portrait capturing joy and human connection",
+    image_url: "/lovable-uploads/70f000fb-5e2f-4043-8f69-8a03ea8c9217.png",
+    collection_name: "Cultural Chronicles",
+    dominant_colors: ["black", "white", "gray"],
+    mood_tags: ["joyful", "warm", "human"],
+    size_category: "medium",
+    price: 19000,
+    availability_status: "available",
+    technique: "Graphite on Paper",
+    created_year: 2024
+  },
+  {
+    id: "cult-12",
+    title: "Village Stories",
+    description: "Folk art depicting village women in traditional style with earthy tones",
+    image_url: "/lovable-uploads/7c4380d4-9ddb-4b20-a41c-2155705e36b9.png",
+    collection_name: "Cultural Chronicles",
+    dominant_colors: ["red", "green", "yellow"],
+    mood_tags: ["folk", "traditional", "storytelling"],
+    size_category: "large",
+    price: 30000,
+    availability_status: "available",
+    technique: "Tempera on Canvas",
+    created_year: 2024
+  },
+  
+  // 1/3 Collection - Nature's Palette
+  {
+    id: "nature-1",
+    title: "Mountain Serenity",
+    description: "Peaceful mountain landscape with delicate cherry blossoms in traditional style",
+    image_url: "/lovable-uploads/e55e93b3-d6d7-4f5c-81ae-d979fcad858d.png",
+    collection_name: "Nature's Palette",
+    dominant_colors: ["blue", "white", "pink"],
+    mood_tags: ["serene", "peaceful", "natural"],
+    size_category: "medium",
+    price: 21000,
+    availability_status: "available",
+    technique: "Watercolor",
+    created_year: 2024
+  },
+  {
+    id: "nature-2",
+    title: "Garden's Bounty",
+    description: "Vibrant still life celebrating nature's abundance with flowers and wine",
+    image_url: "/lovable-uploads/f8087b88-83bd-4776-b209-f089d65397c0.png",
+    collection_name: "Nature's Palette",
+    dominant_colors: ["yellow", "blue", "purple"],
+    mood_tags: ["abundant", "celebratory", "warm"],
+    size_category: "medium",
+    price: 17500,
+    availability_status: "available",
+    technique: "Oil on Canvas",
+    created_year: 2024
+  },
   {
     id: "nature-3",
     title: "Tranquil Lake",
@@ -329,10 +438,38 @@ const ARTWORK_DATA: Artwork[] = [
     availability_status: "available",
     technique: "Acrylic on Canvas",
     created_year: 2024
+  },
+  {
+    id: "nature-6",
+    title: "Rose Trio",
+    description: "Delicate watercolor study of three pink roses with expressive brushwork",
+    image_url: "/lovable-uploads/712d6581-b2a4-4d90-b5fd-bf4ac43d8667.png",
+    collection_name: "Nature's Palette",
+    dominant_colors: ["pink", "green", "blue"],
+    mood_tags: ["delicate", "romantic", "fresh"],
+    size_category: "small",
+    price: 15000,
+    availability_status: "available",
+    technique: "Watercolor",
+    created_year: 2024
+  },
+  {
+    id: "nature-7",
+    title: "Lotus Meditation",
+    description: "Peaceful lotus flower painting symbolizing purity and enlightenment",
+    image_url: "/lovable-uploads/5b3d3e4c-e767-4b4a-9b81-c12cacd1a498.png",
+    collection_name: "Nature's Palette",
+    dominant_colors: ["pink", "green", "white"],
+    mood_tags: ["peaceful", "meditative", "spiritual"],
+    size_category: "small",
+    price: 16000,
+    availability_status: "available",
+    technique: "Oil on Canvas",
+    created_year: 2024
   }
 ];
 
-const ArtworkSearch = () => {
+const ArtworkSearch = ({ viewMode = 'grid' }: ArtworkSearchProps) => {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
   const [filteredArtworks, setFilteredArtworks] = useState<Artwork[]>([]);
   const [loading, setLoading] = useState(false);
@@ -617,7 +754,7 @@ const ArtworkSearch = () => {
         </p>
       </div>
 
-      {/* Artwork Grid */}
+      {/* Artwork Grid/List */}
       {filteredArtworks.length === 0 ? (
         <Card className="bg-white/80 backdrop-blur-sm">
           <CardContent className="text-center py-12">
@@ -632,14 +769,23 @@ const ArtworkSearch = () => {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className={viewMode === 'grid' 
+          ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
+          : "space-y-4"
+        }>
           {filteredArtworks.map((artwork) => (
-            <Card key={artwork.id} className="group overflow-hidden bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
-              <div className="relative overflow-hidden">
+            <Card key={artwork.id} className={`group overflow-hidden bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300 ${
+              viewMode === 'list' ? 'flex flex-row' : ''
+            }`}>
+              <div className={`relative overflow-hidden ${
+                viewMode === 'list' ? 'w-48 flex-shrink-0' : ''
+              }`}>
                 <img
                   src={artwork.image_url}
                   alt={artwork.title}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  className={`object-cover group-hover:scale-105 transition-transform duration-300 ${
+                    viewMode === 'list' ? 'w-full h-48' : 'w-full h-64'
+                  }`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 
@@ -673,15 +819,17 @@ const ArtworkSearch = () => {
                 </div>
 
                 {/* Price Badge */}
-                <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Badge className="bg-white/90 text-gray-900 backdrop-blur-sm">
-                    {formatPrice(artwork.price)}
-                  </Badge>
-                </div>
+                {viewMode === 'grid' && (
+                  <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <Badge className="bg-white/90 text-gray-900 backdrop-blur-sm">
+                      {formatPrice(artwork.price)}
+                    </Badge>
+                  </div>
+                )}
               </div>
 
-              <CardContent className="p-6">
-                <div className="space-y-3">
+              <CardContent className={`p-6 ${viewMode === 'list' ? 'flex-1' : ''}`}>
+                <div className={`space-y-3 ${viewMode === 'list' ? 'flex flex-col justify-between h-full' : ''}`}>
                   <div>
                     <h3 className="font-semibold text-lg text-arteza-charcoal group-hover:text-arteza-terracotta transition-colors">
                       {artwork.title}
@@ -697,10 +845,12 @@ const ArtworkSearch = () => {
                     </p>
                   )}
 
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">{artwork.technique}</span>
-                    <span className="text-muted-foreground">{artwork.size_category}</span>
-                  </div>
+                  {viewMode === 'list' && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">{artwork.technique}</span>
+                      <span className="text-muted-foreground">{artwork.size_category}</span>
+                    </div>
+                  )}
 
                   {/* Tags */}
                   <div className="space-y-2">

@@ -74,7 +74,7 @@ const EnhancedShop = () => {
           </TabsList>
 
           <TabsContent value="browse" className="space-y-8">
-            <ArtworkSearch />
+            <ArtworkSearch viewMode={viewMode} />
           </TabsContent>
 
           <TabsContent value="favorites" className="space-y-8">
