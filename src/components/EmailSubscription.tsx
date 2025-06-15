@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +12,7 @@ interface SubscriptionPreferences {
   classUpdates: boolean;
   newArtworks: boolean;
   specialOffers: boolean;
+  [key: string]: boolean; // Add index signature for Json compatibility
 }
 
 const EmailSubscription = () => {
@@ -41,7 +41,7 @@ const EmailSubscription = () => {
         .from("email_subscribers")
         .select("id, subscription_status")
         .eq("email", email)
-        .single();
+        .maybeSingle();
 
       if (existing) {
         if (existing.subscription_status === 'active') {
@@ -54,7 +54,7 @@ const EmailSubscription = () => {
             .update({
               subscription_status: 'active',
               name: name || null,
-              preferences: preferences,
+              preferences: preferences as any, // Cast to any for Json compatibility
               updated_at: new Date().toISOString()
             })
             .eq("id", existing.id);
@@ -70,7 +70,7 @@ const EmailSubscription = () => {
             email,
             name: name || null,
             subscription_source: 'website',
-            preferences: preferences
+            preferences: preferences as any // Cast to any for Json compatibility
           });
 
         if (error) throw error;
