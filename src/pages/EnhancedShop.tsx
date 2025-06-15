@@ -4,11 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ArtworkSearch from "@/components/ArtworkSearch";
 import EmailSubscription from "@/components/EmailSubscription";
+import CartBadge from "@/components/CartBadge";
 import { ArrowLeft, ShoppingBag, Heart, Grid3X3, List } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useCart } from "@/hooks/useCart";
 
 const EnhancedShop = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const { wishlist } = useCart();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-arteza-sage/20 to-arteza-terracotta/20">
@@ -22,6 +25,9 @@ const EnhancedShop = () => {
                 Back to Home
               </Link>
             </Button>
+            <div className="ml-auto">
+              <CartBadge />
+            </div>
           </div>
           
           <div className="flex justify-between items-center">
@@ -63,7 +69,7 @@ const EnhancedShop = () => {
             </TabsTrigger>
             <TabsTrigger value="favorites" className="flex items-center gap-2">
               <Heart className="h-4 w-4" />
-              My Favorites
+              My Favorites ({wishlist.length})
             </TabsTrigger>
           </TabsList>
 
@@ -78,6 +84,11 @@ const EnhancedShop = () => {
               <p className="text-muted-foreground mb-4">
                 Save artworks you love by clicking the heart icon while browsing.
               </p>
+              {wishlist.length > 0 && (
+                <p className="text-sm text-arteza-indigo">
+                  You have {wishlist.length} item{wishlist.length !== 1 ? 's' : ''} in your wishlist
+                </p>
+              )}
             </div>
           </TabsContent>
         </Tabs>

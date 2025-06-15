@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { Search, Filter, X, Heart, ShoppingCart, Palette } from "lucide-react";
 import { toast } from "sonner";
+import { useCart } from "@/hooks/useCart";
 
 interface Artwork {
   id: string;
@@ -55,6 +55,8 @@ const ArtworkSearch = () => {
   const colors = [...new Set(artworks.flatMap(a => a.dominant_colors || []))];
   const moods = [...new Set(artworks.flatMap(a => a.mood_tags || []))];
   const techniques = [...new Set(artworks.map(a => a.technique).filter(Boolean))];
+
+  const { addToCart, toggleWishlist, isInWishlist } = useCart();
 
   useEffect(() => {
     fetchArtworks();
@@ -380,16 +382,24 @@ const ArtworkSearch = () => {
                     size="sm"
                     variant="secondary"
                     className="w-10 h-10 p-0 rounded-full bg-white/90 backdrop-blur-sm"
-                    onClick={() => toggleFavorite(artwork.id)}
+                    onClick={() => toggleWishlist(artwork.id)}
                   >
                     <Heart 
-                      className={`h-4 w-4 ${favorites.has(artwork.id) ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} 
+                      className={`h-4 w-4 ${isInWishlist(artwork.id) ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} 
                     />
                   </Button>
                   <Button
                     size="sm"
                     variant="secondary"
                     className="w-10 h-10 p-0 rounded-full bg-white/90 backdrop-blur-sm"
+                    onClick={() => addToCart({
+                      id: artwork.id,
+                      title: artwork.title,
+                      price: artwork.price || 0,
+                      image_url: artwork.image_url,
+                      size_category: artwork.size_category,
+                      technique: artwork.technique
+                    })}
                   >
                     <ShoppingCart className="h-4 w-4 text-gray-600" />
                   </Button>
@@ -456,8 +466,19 @@ const ArtworkSearch = () => {
                       <span className="font-semibold text-arteza-terracotta">
                         {formatPrice(artwork.price)}
                       </span>
-                      <Button size="sm" className="bg-arteza-sage hover:bg-arteza-moss">
-                        View Details
+                      <Button 
+                        size="sm" 
+                        className="bg-arteza-sage hover:bg-arteza-moss"
+                        onClick={() => addToCart({
+                          id: artwork.id,
+                          title: artwork.title,
+                          price: artwork.price || 0,
+                          image_url: artwork.image_url,
+                          size_category: artwork.size_category,
+                          technique: artwork.technique
+                        })}
+                      >
+                        Add to Cart
                       </Button>
                     </div>
                   </div>

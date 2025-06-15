@@ -1,50 +1,21 @@
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Minus, Plus, X, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useCart } from "@/hooks/useCart";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      title: "Morning Whispers",
-      price: 8500,
-      image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb",
-      size: "12x16 inches",
-      medium: "Acrylic on Canvas",
-      quantity: 1
-    },
-    {
-      id: 2,
-      title: "Sunset Solitude",
-      price: 12000,
-      image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07",
-      size: "16x20 inches",
-      medium: "Oil on Canvas",
-      quantity: 1
-    }
-  ]);
+  const { 
+    items: cartItems, 
+    removeFromCart, 
+    updateQuantity, 
+    getCartTotal, 
+    clearCart 
+  } = useCart();
 
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity === 0) {
-      removeItem(id);
-      return;
-    }
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const removeItem = (id: number) => {
-    setCartItems(items => items.filter(item => item.id !== id));
-  };
-
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = getCartTotal();
   const shipping = subtotal > 15000 ? 0 : 500;
   const total = subtotal + shipping;
 
@@ -74,13 +45,25 @@ const Cart = () => {
     <div className="min-h-screen pt-8 pb-20">
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-arteza-charcoal mb-2">
-            Your Cart
-          </h1>
-          <p className="text-muted-foreground">
-            {cartItems.length} item{cartItems.length !== 1 ? 's' : ''} in your collection
-          </p>
+        <div className="mb-8 flex justify-between items-start">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-serif font-bold text-arteza-charcoal mb-2">
+              Your Cart
+            </h1>
+            <p className="text-muted-foreground">
+              {cartItems.length} item{cartItems.length !== 1 ? 's' : ''} in your collection
+            </p>
+          </div>
+          {cartItems.length > 0 && (
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={clearCart}
+              className="text-red-600 hover:text-red-700"
+            >
+              Clear Cart
+            </Button>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -93,7 +76,7 @@ const Cart = () => {
                     {/* Image */}
                     <div className="relative w-full md:w-48 h-48 overflow-hidden rounded-lg">
                       <img
-                        src={item.image}
+                        src={item.image_url}
                         alt={item.title}
                         className="w-full h-full object-cover"
                       />
@@ -107,7 +90,8 @@ const Cart = () => {
                             {item.title}
                           </h3>
                           <p className="text-muted-foreground text-sm mb-1">
-                            {item.size} • {item.medium}
+                            {item.size_category && `${item.size_category} • `}
+                            {item.technique}
                           </p>
                           <p className="text-lg font-bold text-arteza-indigo">
                             ₹{item.price.toLocaleString()}
@@ -116,7 +100,7 @@ const Cart = () => {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => removeItem(item.id)}
+                          onClick={() => removeFromCart(item.id)}
                           className="text-muted-foreground hover:text-red-500"
                         >
                           <X className="h-4 w-4" />
