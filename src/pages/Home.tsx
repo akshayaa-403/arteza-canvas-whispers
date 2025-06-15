@@ -1,389 +1,284 @@
-import { Button } from "@/components/ui/button";
+
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { ArrowDown, Palette, Users, Award, BookOpen, ShoppingBag, MessageCircle, Sparkles, Camera, Heart, Brush, Video } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Heart, ShoppingBag, Loader2, ArrowRight, ArrowLeft, Grid3X3, List } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import EmailSubscription from "@/components/EmailSubscription";
+
+type Artwork = {
+  id: string;
+  title: string;
+  image_url: string;
+  price: number | null;
+  description: string | null;
+  collection_name: string | null;
+  dominant_colors: string[] | null;
+  mood_tags: string[] | null;
+  technique: string | null;
+  availability_status: string;
+};
+
+const fetchArtworks = async (): Promise<Artwork[]> => {
+  const { data, error } = await supabase
+    .from("artworks")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return data as Artwork[];
+};
 
 const Home = () => {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const galleryRef = useRef<HTMLDivElement>(null);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+  const { data: artworks, isLoading, error } = useQuery({
+    queryKey: ["artworks", "home"],
+    queryFn: fetchArtworks,
+  });
 
-    if (heroRef.current) observer.observe(heroRef.current);
-    if (galleryRef.current) observer.observe(galleryRef.current);
+  // Find all unique collections present in artwork data
+  const collectionSet = new Set(
+    (artworks || []).map((a) => a.collection_name).filter(Boolean)
+  );
+  const collections = Array.from(collectionSet) as string[];
 
-    return () => observer.disconnect();
-  }, []);
+  // For preview: show collections as tabs, ALL as default
+  const [activeCollection, setActiveCollection] = useState<string>("ALL");
 
-  const collections = [
-    {
-      name: "Dreamscapes",
-      description: "Ethereal visions painted in whispers",
-      image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb",
-      count: "12 pieces"
-    },
-    {
-      name: "Abstract Expressions",
-      description: "Raw emotion through bold brushstrokes",
-      image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07",
-      count: "8 pieces"
-    },
-    {
-      name: "Cultural Chronicles",
-      description: "Stories from the heart of India",
-      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-      count: "15 pieces"
-    },
-    {
-      name: "Intimate Moments",
-      description: "Quiet observations of daily poetry",
-      image: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb",
-      count: "6 pieces"
-    }
-  ];
-
-  const featuredArtworks = [
-    {
-      title: "Morning Musings",
-      price: "₹8,500",
-      image: "https://images.unsplash.com/photo-1472396961693-142e6e269027"
-    },
-    {
-      title: "Sunset Solitude",
-      price: "₹12,000",
-      image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901"
-    },
-    {
-      title: "Urban Dreams",
-      price: "₹15,500",
-      image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb"
-    }
-  ];
-
-  const features = [
-    {
-      icon: ShoppingBag,
-      title: "Art Shop",
-      description: "Browse and purchase original artworks",
-      link: "/shop",
-      color: "bg-arteza-blush",
-      textColor: "text-arteza-indigo"
-    },
-    {
-      icon: Palette,
-      title: "Commission Art",
-      description: "Work with Upasna to create a unique piece",
-      link: "/commission",
-      color: "bg-arteza-peach",
-      textColor: "text-arteza-indigo"
-    },
-    {
-      icon: BookOpen,
-      title: "Art Classes",
-      description: "Join live Zoom sessions with personalized guidance",
-      link: "/art-classes",
-      color: "bg-arteza-sage",
-      textColor: "text-white"
-    },
-    {
-      icon: Users,
-      title: "Student Gallery",
-      description: "Discover inspiring works from art students",
-      link: "/student-gallery",
-      color: "bg-arteza-copper",
-      textColor: "text-white"
-    },
-    {
-      icon: Heart,
-      title: "Collector's Wall",
-      description: "See how ARTEZA pieces transform homes",
-      link: "/collectors-wall",
-      color: "bg-arteza-terracotta",
-      textColor: "text-white"
-    },
-    {
-      icon: Sparkles,
-      title: "Art Style Quiz",
-      description: "Find your perfect art collection match",
-      link: "/quiz",
-      color: "bg-arteza-moss",
-      textColor: "text-white"
-    },
-    {
-      icon: MessageCircle,
-      title: "Art Blog",
-      description: "Stories, techniques, and artistic inspiration",
-      link: "/blog",
-      color: "bg-arteza-rust",
-      textColor: "text-white"
-    },
-    {
-      icon: Brush,
-      title: "About Upasna",
-      description: "Learn about the artist behind ARTEZA",
-      link: "/about",
-      color: "bg-arteza-clay",
-      textColor: "text-white"
-    }
-  ];
+  const filteredArtworks =
+    activeCollection === "ALL" || !artworks
+      ? artworks
+      : artworks.filter(
+          (a) => a.collection_name === activeCollection
+        );
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-arteza-sage/20 to-arteza-terracotta/20">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative h-screen flex items-center justify-center watercolor-fade overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background/60" />
-        
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          <h1 className="text-6xl md:text-8xl font-serif font-bold text-arteza-charcoal mb-6 animate-watercolor-float">
-            Art That Feels
-          </h1>
-          <p className="text-xl md:text-2xl font-light text-arteza-indigo mb-8 max-w-2xl mx-auto leading-relaxed">
-            Step into a world where brushstrokes whisper stories, and every canvas holds a piece of the soul. 
-            Welcome to the intimate universe of Upasna's artistry.
-          </p>
-          
-          <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
-            <Button 
-              asChild
-              size="lg" 
-              className="bg-arteza-blush text-arteza-charcoal hover:bg-arteza-peach transition-all duration-300 px-8 py-3 text-lg font-medium hover-brush-stroke"
+      <section className="relative bg-white/80 backdrop-blur-sm border-b border-arteza-sage/20">
+        <div className="max-w-7xl mx-auto px-4 pt-8 pb-16 flex flex-col md:flex-row md:items-center md:gap-8">
+          <div className="flex-1 mb-8 md:mb-0">
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-arteza-charcoal drop-shadow-sm mb-4">
+              Discover Upasna&apos;s Originals
+            </h1>
+            <p className="text-lg text-muted-foreground mb-6 max-w-xl">
+              Artworks that evoke emotion, curated collections, and stories told in paint. Find your new favourite piece or browse by mood, size, or theme.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild variant="default" className="bg-arteza-terracotta/90 text-white hover:bg-arteza-charcoal transition">
+                <Link to="/shop">
+                  <ShoppingBag className="h-4 w-4 mr-2" />
+                  Shop the Collection
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="border-arteza-charcoal text-arteza-charcoal hover:bg-arteza-sage/40 transition">
+                <Link to="#gallery">
+                  <ArrowRight className="h-4 w-4 mr-2" />
+                  Browse Artworks
+                </Link>
+              </Button>
+            </div>
+          </div>
+          <div className="flex-[0_0_320px] flex justify-center md:justify-end items-center">
+            {/* Show featured artwork as hero image, fallback if needed */}
+            {isLoading ? (
+              <div className="w-72 h-72 rounded-lg bg-muted flex items-center justify-center">
+                <Loader2 className="h-10 w-10 animate-spin text-arteza-sage" />
+              </div>
+            ) : artworks && artworks.length > 0 ? (
+              <div className="w-72 h-72 rounded-xl overflow-hidden border-4 border-arteza-terracotta shadow-lg flex items-center">
+                <img
+                  src={artworks[0].image_url}
+                  alt={artworks[0].title}
+                  className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+            ) : (
+              <div className="w-72 h-72 rounded-lg bg-muted flex items-center justify-center text-sm text-muted-foreground">
+                No artwork yet
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Collection Tabs */}
+      <section id="gallery" className="max-w-7xl mx-auto px-4 py-12 md:pt-20 md:pb-24">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+          <h2 className="text-2xl md:text-3xl font-serif font-bold text-arteza-charcoal tracking-tight">
+            Curated Gallery
+          </h2>
+          {/* View Switchers */}
+          <div className="flex gap-2">
+            <Button
+              variant={viewMode === "grid" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setViewMode("grid")}
             >
-              <Link to="/shop">Explore Collections</Link>
+              <Grid3X3 className="h-4 w-4" />
             </Button>
-            <Button 
-              variant="outline"
-              asChild
-              size="lg"
-              className="border-arteza-indigo text-arteza-indigo hover:bg-arteza-indigo hover:text-white transition-all duration-300 px-8 py-3 text-lg"
+            <Button
+              variant={viewMode === "list" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setViewMode("list")}
             >
-              <Link to="/quiz">Find Your Collection</Link>
+              <List className="h-4 w-4" />
             </Button>
           </div>
         </div>
+        <Tabs
+          value={activeCollection}
+          onValueChange={(val) => setActiveCollection(val)}
+          className="mb-10"
+        >
+          <TabsList className="overflow-x-auto flex gap-1 p-1 rounded-md bg-accent/40">
+            <TabsTrigger value="ALL" className="min-w-[100px] font-semibold">
+              All
+            </TabsTrigger>
+            {collections.map((c) => (
+              <TabsTrigger key={c} value={c} className="min-w-[100px] font-medium">
+                {c}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ArrowDown className="h-6 w-6 text-arteza-indigo" />
-        </div>
-      </section>
-
-      {/* All Features Showcase */}
-      <section className="py-20 px-4 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-arteza-charcoal mb-4">
-            Everything ARTEZA
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Discover all the ways to experience and engage with art through our comprehensive platform
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature, index) => {
-            const IconComponent = feature.icon;
-            return (
-              <Card 
-                key={feature.title}
-                className="group cursor-pointer border-arteza-blush hover:shadow-xl transition-all duration-500 hover:scale-105 overflow-hidden"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <Link to={feature.link}>
-                  <CardHeader className="text-center pb-2">
-                    <div className={`w-16 h-16 ${feature.color} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                      <IconComponent className={`h-8 w-8 ${feature.textColor}`} />
-                    </div>
-                    <CardTitle className="text-lg font-serif font-bold text-arteza-charcoal group-hover:text-arteza-indigo transition-colors">
-                      {feature.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-center pt-0">
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </CardContent>
-                </Link>
-              </Card>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Featured Collections */}
-      <section className="py-20 px-4 max-w-7xl mx-auto bg-arteza-blush/10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-arteza-charcoal mb-4">
-            Featured Collections
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Each collection tells a different story, painted with intention and heart
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {collections.map((collection, index) => (
-            <Card 
-              key={collection.name}
-              className="group cursor-pointer border-arteza-blush hover:shadow-lg transition-all duration-500 hover:scale-105 overflow-hidden"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <Link to="/shop">
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={collection.image}
-                    alt={collection.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <Badge className="absolute top-3 right-3 bg-arteza-blush text-arteza-charcoal">
-                    {collection.count}
-                  </Badge>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-serif font-semibold mb-2 text-arteza-charcoal group-hover:text-arteza-indigo transition-colors">
-                    {collection.name}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {collection.description}
-                  </p>
-                </CardContent>
-              </Link>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Art Classes Highlight */}
-      <section className="py-20 px-4 bg-gradient-to-r from-arteza-sage/20 to-arteza-moss/20">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="mb-8">
-            <div className="w-20 h-20 bg-arteza-sage rounded-full flex items-center justify-center mx-auto mb-6">
-              <Video className="h-10 w-10 text-white" />
+        {/* Artwork grid/list */}
+        <div>
+          {isLoading ? (
+            <div className="flex justify-center py-16">
+              <Loader2 className="h-10 w-10 text-arteza-sage animate-spin" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-arteza-charcoal mb-4">
-              Live Art Classes on Zoom
+          ) : error ? (
+            <div className="text-center text-destructive mb-16">Failed to load artworks. Please refresh.</div>
+          ) : filteredArtworks && filteredArtworks.length === 0 ? (
+            <div className="text-center text-muted-foreground py-16">
+              No artworks in this collection yet.
+            </div>
+          ) : (
+            <div
+              className={
+                viewMode === "grid"
+                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7"
+                  : "flex flex-col gap-6"
+              }
+            >
+              {filteredArtworks?.map((art) => (
+                <Card
+                  key={art.id}
+                  className={`group overflow-hidden relative bg-white/90 border-arteza-sage/30 shadow-sm transition-all duration-300 hover:shadow-xl hover:scale-[1.02] ${
+                    viewMode === "grid"
+                      ? ""
+                      : "flex flex-row items-stretch min-h-[160px]"
+                  }`}
+                >
+                  <Link
+                    to={`/shop?artwork=${art.id}`}
+                    className={
+                      viewMode === "grid"
+                        ? ""
+                        : "flex flex-col md:flex-row w-full"
+                    }
+                  >
+                    <div
+                      className={
+                        viewMode === "grid"
+                          ? "h-60 w-full relative overflow-hidden"
+                          : "w-48 min-w-[6rem] h-40 relative mr-4 flex-shrink-0"
+                      }
+                    >
+                      <img
+                        src={art.image_url}
+                        alt={art.title}
+                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                      {art.collection_name && (
+                        <span className="absolute top-3 left-3 bg-arteza-sage/80 text-xs text-arteza-charcoal px-2 py-0.5 rounded shadow font-semibold tracking-wide">
+                          {art.collection_name}
+                        </span>
+                      )}
+                    </div>
+                    <CardContent
+                      className={`z-20 ${
+                        viewMode === "grid"
+                          ? "pt-4"
+                          : "flex flex-col justify-between py-6 px-4 w-full"
+                      }`}
+                    >
+                      <div>
+                        <h3 className="text-lg font-serif font-bold text-arteza-charcoal mb-1 truncate">
+                          {art.title}
+                        </h3>
+                        {art.description && (
+                          <p className="text-muted-foreground text-sm mb-2 line-clamp-2">
+                            {art.description}
+                          </p>
+                        )}
+                        <div className="flex items-center gap-3 mt-2">
+                          <span className="text-arteza-terracotta font-semibold text-lg">
+                            {art.price == null ? "Contact for Price" : `₹${art.price.toLocaleString()}`}
+                          </span>
+                          {art.availability_status && (
+                            <span
+                              className={`ml-2 px-2 py-0.5 text-xs rounded font-medium ${
+                                art.availability_status === "available"
+                                  ? "bg-arteza-sage/90 text-arteza-charcoal"
+                                  : "bg-muted text-muted-foreground"
+                              }`}
+                            >
+                              {art.availability_status}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Link>
+                  {/* Action buttons (favorite etc.) */}
+                  <div className="absolute top-3 right-3 flex flex-col gap-2 z-20">
+                    <Button variant="ghost" size="icon" className="text-arteza-terracotta hover:bg-arteza-blush/40" aria-label="Add to favorites">
+                      <Heart className="h-5 w-5" />
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Email/Newsletter Subscription */}
+      <section className="max-w-2xl mx-auto my-16 px-4">
+        <div className="bg-white/90 rounded-2xl shadow-lg py-10 px-6">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-serif font-bold text-arteza-charcoal mb-2">
+              Stay Inspired
             </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join intimate Zoom sessions with Upasna, tailored for every age group. From creative kids to seniors rediscovering art, 
-              find your perfect class with personalized guidance and small group sizes.
+            <p className="text-muted-foreground">
+              Be the first to know about new originals, collection drops, and exclusive updates from Upasna’s studio.
             </p>
           </div>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              asChild
-              size="lg"
-              className="bg-arteza-sage text-white hover:bg-arteza-moss transition-all duration-300 px-8 py-3 text-lg"
-            >
-              <Link to="/art-classes">
-                <BookOpen className="mr-2 h-5 w-5" />
-                Explore Art Classes
-              </Link>
-            </Button>
-            <Button 
-              variant="outline"
-              asChild
-              size="lg"
-              className="border-arteza-sage text-arteza-sage hover:bg-arteza-sage hover:text-white transition-all duration-300 px-8 py-3 text-lg"
-            >
-              <Link to="/contact">Contact Upasna</Link>
-            </Button>
-          </div>
+          <EmailSubscription />
         </div>
       </section>
 
-      {/* Horizontal Scroll Gallery */}
-      <section ref={galleryRef} className="py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-arteza-charcoal mb-8 text-center">
-            Featured Artworks
-          </h2>
-          
-          <div className="flex overflow-x-auto space-x-6 pb-6 scrollbar-hide">
-            {featuredArtworks.map((artwork, index) => (
-              <div
-                key={artwork.title}
-                className="flex-none w-80 group cursor-pointer"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <Link to="/shop">
-                  <div className="relative h-96 rounded-lg overflow-hidden">
-                    <img
-                      src={artwork.image}
-                      alt={artwork.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <h3 className="text-xl font-serif font-semibold mb-1">{artwork.title}</h3>
-                      <p className="text-lg font-medium">{artwork.price}</p>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* Visual Quote */}
+      <section className="py-12 px-4 text-center">
+        <blockquote className="text-2xl md:text-3xl font-serif italic text-arteza-charcoal max-w-3xl mx-auto mb-4">
+          &quot;Every brushstroke is a heartbeat, every color a whispered secret.&quot;
+        </blockquote>
+        <p className="text-lg text-arteza-terracotta font-medium">— Upasna</p>
       </section>
 
-      {/* Visual Quote Section */}
-      <section className="py-20 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 watercolor-fade opacity-30" />
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <blockquote className="text-3xl md:text-4xl font-serif italic text-arteza-charcoal leading-relaxed mb-8">
-            "Every brushstroke is a heartbeat, every color a whispered secret, 
-            every canvas a window into the soul's landscape."
-          </blockquote>
-          <p className="text-lg text-arteza-indigo font-medium">— Upasna</p>
-        </div>
-      </section>
-
-      {/* Newsletter Signup */}
-      <section className="py-20 px-4 bg-arteza-peach/20">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-arteza-charcoal mb-4">
-            Stay Connected
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Be the first to see new artworks, read studio stories, and join the creative journey
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <Input
-              type="email"
-              placeholder="Your email address"
-              className="border-arteza-blush focus:border-arteza-indigo"
-            />
-            <Button className="bg-arteza-indigo text-white hover:bg-arteza-charcoal transition-all duration-300">
-              Subscribe
-            </Button>
-          </div>
-          
-          <p className="text-sm text-muted-foreground mt-4">
-            No spam, just art and heart. Unsubscribe anytime.
-          </p>
-        </div>
-      </section>
-
-      {/* Footer */}
       <footer className="py-12 px-4 bg-arteza-charcoal text-white">
         <div className="max-w-7xl mx-auto text-center">
           <h3 className="text-2xl font-serif font-bold mb-4">ARTEZA</h3>
           <p className="text-lg mb-6 opacity-80">
             Artist based in Noida. Shipping across India.
           </p>
-          
           <div className="flex justify-center space-x-6 mb-8">
             <a href="https://instagram.com/arteza_upasna" className="hover:text-arteza-blush transition-colors">
               Instagram
@@ -395,7 +290,6 @@ const Home = () => {
               Contact
             </Link>
           </div>
-          
           <p className="text-sm opacity-60">
             © 2024 ARTEZA. All rights reserved. Made with ♡ in Noida.
           </p>
