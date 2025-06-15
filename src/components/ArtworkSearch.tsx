@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -40,12 +39,12 @@ const ArtworkSearch = () => {
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<SearchFilters>({
     query: '',
-    collection: '',
-    color: '',
-    mood: '',
-    size: '',
-    technique: '',
-    priceRange: ''
+    collection: 'all-collections',
+    color: 'all-colors',
+    mood: 'all-moods',
+    size: 'all-sizes',
+    technique: 'all-techniques',
+    priceRange: 'all-prices'
   });
   const [showFilters, setShowFilters] = useState(false);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
@@ -96,36 +95,36 @@ const ArtworkSearch = () => {
     }
 
     // Collection filter
-    if (filters.collection) {
+    if (filters.collection && filters.collection !== 'all-collections') {
       filtered = filtered.filter(artwork => artwork.collection_name === filters.collection);
     }
 
     // Color filter
-    if (filters.color) {
+    if (filters.color && filters.color !== 'all-colors') {
       filtered = filtered.filter(artwork => 
         artwork.dominant_colors?.includes(filters.color)
       );
     }
 
     // Mood filter
-    if (filters.mood) {
+    if (filters.mood && filters.mood !== 'all-moods') {
       filtered = filtered.filter(artwork => 
         artwork.mood_tags?.includes(filters.mood)
       );
     }
 
     // Size filter
-    if (filters.size) {
+    if (filters.size && filters.size !== 'all-sizes') {
       filtered = filtered.filter(artwork => artwork.size_category === filters.size);
     }
 
     // Technique filter
-    if (filters.technique) {
+    if (filters.technique && filters.technique !== 'all-techniques') {
       filtered = filtered.filter(artwork => artwork.technique === filters.technique);
     }
 
     // Price range filter
-    if (filters.priceRange) {
+    if (filters.priceRange && filters.priceRange !== 'all-prices') {
       filtered = filtered.filter(artwork => {
         const price = artwork.price || 0;
         switch (filters.priceRange) {
@@ -148,12 +147,12 @@ const ArtworkSearch = () => {
   const clearFilters = () => {
     setFilters({
       query: '',
-      collection: '',
-      color: '',
-      mood: '',
-      size: '',
-      technique: '',
-      priceRange: ''
+      collection: 'all-collections',
+      color: 'all-colors',
+      mood: 'all-moods',
+      size: 'all-sizes',
+      technique: 'all-techniques',
+      priceRange: 'all-prices'
     });
   };
 
@@ -215,9 +214,9 @@ const ArtworkSearch = () => {
         >
           <Filter className="h-4 w-4" />
           Filters
-          {Object.values(filters).some(Boolean) && (
+          {Object.values(filters).some(value => value && !value.startsWith('all-')) && (
             <Badge variant="secondary" className="ml-2">
-              {Object.values(filters).filter(Boolean).length}
+              {Object.values(filters).filter(value => value && !value.startsWith('all-')).length}
             </Badge>
           )}
         </Button>
@@ -235,7 +234,7 @@ const ArtworkSearch = () => {
                     <SelectValue placeholder="All Collections" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Collections</SelectItem>
+                    <SelectItem value="all-collections">All Collections</SelectItem>
                     {collections.map(collection => (
                       <SelectItem key={collection} value={collection}>{collection}</SelectItem>
                     ))}
@@ -250,7 +249,7 @@ const ArtworkSearch = () => {
                     <SelectValue placeholder="All Colors" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Colors</SelectItem>
+                    <SelectItem value="all-colors">All Colors</SelectItem>
                     {colors.map(color => (
                       <SelectItem key={color} value={color}>
                         <div className="flex items-center gap-2">
@@ -273,7 +272,7 @@ const ArtworkSearch = () => {
                     <SelectValue placeholder="All Moods" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Moods</SelectItem>
+                    <SelectItem value="all-moods">All Moods</SelectItem>
                     {moods.map(mood => (
                       <SelectItem key={mood} value={mood}>{mood}</SelectItem>
                     ))}
@@ -288,7 +287,7 @@ const ArtworkSearch = () => {
                     <SelectValue placeholder="All Sizes" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Sizes</SelectItem>
+                    <SelectItem value="all-sizes">All Sizes</SelectItem>
                     <SelectItem value="small">Small</SelectItem>
                     <SelectItem value="medium">Medium</SelectItem>
                     <SelectItem value="large">Large</SelectItem>
@@ -303,7 +302,7 @@ const ArtworkSearch = () => {
                     <SelectValue placeholder="All Techniques" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Techniques</SelectItem>
+                    <SelectItem value="all-techniques">All Techniques</SelectItem>
                     {techniques.map(technique => (
                       <SelectItem key={technique} value={technique}>{technique}</SelectItem>
                     ))}
@@ -318,7 +317,7 @@ const ArtworkSearch = () => {
                     <SelectValue placeholder="All Prices" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Prices</SelectItem>
+                    <SelectItem value="all-prices">All Prices</SelectItem>
                     <SelectItem value="under-5000">Under ₹5,000</SelectItem>
                     <SelectItem value="5000-10000">₹5,000 - ₹10,000</SelectItem>
                     <SelectItem value="10000-20000">₹10,000 - ₹20,000</SelectItem>
