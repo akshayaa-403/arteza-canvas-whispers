@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -34,9 +33,9 @@ interface SearchFilters {
   priceRange: string;
 }
 
-// New artwork data with uploaded images
+// New artwork data with all 20 pieces (10 from 1/3 + 10 from 2/3)
 const ARTWORK_DATA: Artwork[] = [
-  // Abstract Expressions Collection
+  // 1/3 Collection - Abstract Expressions
   {
     id: "abs-1",
     title: "Flowing Harmony",
@@ -94,7 +93,7 @@ const ARTWORK_DATA: Artwork[] = [
     created_year: 2024
   },
   
-  // Dreamscape Collection
+  // 1/3 Collection - Dreamscape
   {
     id: "dream-1",
     title: "Eternal Embrace",
@@ -110,7 +109,7 @@ const ARTWORK_DATA: Artwork[] = [
     created_year: 2024
   },
   
-  // Cultural Chronicles Collection
+  // 1/3 Collection - Cultural Chronicles
   {
     id: "cult-1",
     title: "Silent Strength",
@@ -154,7 +153,7 @@ const ARTWORK_DATA: Artwork[] = [
     created_year: 2024
   },
   
-  // Nature's Palette Collection
+  // 1/3 Collection - Nature's Palette
   {
     id: "nature-1",
     title: "Mountain Serenity",
@@ -181,6 +180,154 @@ const ARTWORK_DATA: Artwork[] = [
     price: 17500,
     availability_status: "available",
     technique: "Oil on Canvas",
+    created_year: 2024
+  },
+
+  // 2/3 Collection - Abstract Expressions
+  {
+    id: "abs-5",
+    title: "Urban Reverie",
+    description: "Modern cityscape rendered in ethereal blues and purples, capturing urban dreams",
+    image_url: "/lovable-uploads/2fdc10b4-ffea-4489-add4-4f8c675abe02.png",
+    collection_name: "Abstract Expressions",
+    dominant_colors: ["blue", "purple", "white"],
+    mood_tags: ["modern", "urban", "atmospheric"],
+    size_category: "large",
+    price: 26000,
+    availability_status: "available",
+    technique: "Acrylic on Canvas",
+    created_year: 2024
+  },
+
+  // 2/3 Collection - Dreamscape
+  {
+    id: "dream-2",
+    title: "Mystic Stallion",
+    description: "An ethereal white horse galloping through a dreamlike sunset landscape",
+    image_url: "/lovable-uploads/3cba9e2c-f145-4a4e-a4b7-70e4d8b2dc57.png",
+    collection_name: "Dreamscape",
+    dominant_colors: ["white", "orange", "blue"],
+    mood_tags: ["ethereal", "mystical", "powerful"],
+    size_category: "large",
+    price: 31000,
+    availability_status: "available",
+    technique: "Oil on Canvas",
+    created_year: 2024
+  },
+
+  // 2/3 Collection - Cultural Chronicles
+  {
+    id: "cult-4",
+    title: "Divine Visage",
+    description: "Sacred golden face with traditional spiritual symbols and deep blue background",
+    image_url: "/lovable-uploads/56fe82f2-ba5e-41b2-8998-e9040e2da26a.png",
+    collection_name: "Cultural Chronicles",
+    dominant_colors: ["yellow", "blue", "red"],
+    mood_tags: ["spiritual", "sacred", "powerful"],
+    size_category: "medium",
+    price: 29000,
+    availability_status: "available",
+    technique: "Traditional Pigments",
+    created_year: 2024
+  },
+  {
+    id: "cult-5",
+    title: "Trinity of Deities",
+    description: "Intricate black and white artwork featuring three divine faces with ornate patterns",
+    image_url: "/lovable-uploads/48201e01-d25e-4c6e-9cd6-270a20361f1c.png",
+    collection_name: "Cultural Chronicles",
+    dominant_colors: ["black", "white", "red"],
+    mood_tags: ["intricate", "divine", "traditional"],
+    size_category: "large",
+    price: 38000,
+    availability_status: "available",
+    technique: "Ink on Paper",
+    created_year: 2024
+  },
+  {
+    id: "cult-6",
+    title: "Koi Harmony",
+    description: "Traditional red and white fish pattern symbolizing prosperity and good fortune",
+    image_url: "/lovable-uploads/d78d12f1-6a21-462e-a2a4-e821a023189a.png",
+    collection_name: "Cultural Chronicles",
+    dominant_colors: ["red", "white", "black"],
+    mood_tags: ["traditional", "harmonious", "symbolic"],
+    size_category: "medium",
+    price: 22000,
+    availability_status: "available",
+    technique: "Traditional Pigments",
+    created_year: 2024
+  },
+  {
+    id: "cult-7",
+    title: "Azure Fish",
+    description: "Detailed fish artwork with intricate patterns on a deep blue background",
+    image_url: "/lovable-uploads/1d6463c0-306d-4155-a2ed-f7b89fbd3d62.png",
+    collection_name: "Cultural Chronicles",
+    dominant_colors: ["blue", "white", "black"],
+    mood_tags: ["detailed", "peaceful", "traditional"],
+    size_category: "medium",
+    price: 20000,
+    availability_status: "available",
+    technique: "Mixed Media",
+    created_year: 2024
+  },
+  {
+    id: "cult-8",
+    title: "Peacock Mandala",
+    description: "Ornate peacock design with geometric patterns and vibrant colors",
+    image_url: "/lovable-uploads/df3f7bf5-4998-4f8e-982a-92bf9554e7eb.png",
+    collection_name: "Cultural Chronicles",
+    dominant_colors: ["blue", "red", "white"],
+    mood_tags: ["ornate", "geometric", "vibrant"],
+    size_category: "large",
+    price: 33000,
+    availability_status: "available",
+    technique: "Mixed Media",
+    created_year: 2024
+  },
+
+  // 2/3 Collection - Nature's Palette
+  {
+    id: "nature-3",
+    title: "Tranquil Lake",
+    description: "Serene lake landscape with mountains and sunset reflections",
+    image_url: "/lovable-uploads/00a67580-8ae1-4570-98b5-959e07b1a99f.png",
+    collection_name: "Nature's Palette",
+    dominant_colors: ["blue", "yellow", "orange"],
+    mood_tags: ["tranquil", "reflective", "scenic"],
+    size_category: "large",
+    price: 27000,
+    availability_status: "available",
+    technique: "Oil on Canvas",
+    created_year: 2024
+  },
+  {
+    id: "nature-4",
+    title: "Village by Mount Fuji",
+    description: "Traditional Japanese village scene with Mount Fuji and cherry blossoms",
+    image_url: "/lovable-uploads/f59e5f92-95ad-487d-8faa-f73fa22aee54.png",
+    collection_name: "Nature's Palette",
+    dominant_colors: ["blue", "white", "brown"],
+    mood_tags: ["traditional", "scenic", "peaceful"],
+    size_category: "large",
+    price: 34000,
+    availability_status: "available",
+    technique: "Watercolor",
+    created_year: 2024
+  },
+  {
+    id: "nature-5",
+    title: "Pastoral Paradise",
+    description: "Idyllic countryside scene with sheep grazing under blooming trees",
+    image_url: "/lovable-uploads/bcef1f0b-8fb0-4560-a2a4-0f634608bcb9.png",
+    collection_name: "Nature's Palette",
+    dominant_colors: ["green", "blue", "white"],
+    mood_tags: ["pastoral", "peaceful", "idyllic"],
+    size_category: "medium",
+    price: 23000,
+    availability_status: "available",
+    technique: "Acrylic on Canvas",
     created_year: 2024
   }
 ];
