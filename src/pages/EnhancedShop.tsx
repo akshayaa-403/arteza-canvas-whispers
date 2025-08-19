@@ -1,19 +1,18 @@
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import ArtworkSearch from "@/components/ArtworkSearch";
 import EmailSubscription from "@/components/EmailSubscription";
 import CartBadge from "@/components/CartBadge";
-import { ArrowLeft, ShoppingBag, Heart, Grid3X3, List, Music, Palette, Sparkles } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowLeft, Heart, Grid3X3, List, Music, Palette, Sparkles } from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
 import { useCart } from "@/hooks/useCart";
 import { useFadeInOnScroll } from "@/hooks/useFadeInOnScroll";
 
 const collections = [
   {
-    name: "Dreamscape",
+    name: "Dreamscapes",
     description: "Ethereal landscapes that blur the line between reality and imagination",
     color: "arteza-sage",
     icon: "✨",
@@ -47,6 +46,23 @@ const EnhancedShop = () => {
   const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
   const { wishlist } = useCart();
   const fadeInRef = useFadeInOnScroll();
+  const [searchParams] = useSearchParams();
+
+  // Map color tokens to static Tailwind classes to avoid dynamic class generation issues
+  const colorClassMap: Record<string, { border: string; bgFromTo: string }> = {
+    'arteza-sage': { border: 'border-arteza-sage', bgFromTo: 'from-arteza-sage/10 to-arteza-sage/5' },
+    'arteza-terracotta': { border: 'border-arteza-terracotta', bgFromTo: 'from-arteza-terracotta/10 to-arteza-terracotta/5' },
+    'arteza-copper': { border: 'border-arteza-copper', bgFromTo: 'from-arteza-copper/10 to-arteza-copper/5' },
+    'arteza-moss': { border: 'border-arteza-moss', bgFromTo: 'from-arteza-moss/10 to-arteza-moss/5' },
+  };
+
+  // Initialize/sync selected collection from URL param if present
+  useEffect(() => {
+    const urlCollection = searchParams.get('collection');
+    if (urlCollection) {
+      setSelectedCollection(urlCollection);
+    }
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-arteza-sage/20 to-arteza-terracotta/20">
@@ -107,13 +123,13 @@ const EnhancedShop = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" ref={fadeInRef}>
             {collections.map((collection, index) => (
               <div
                 key={collection.name}
                 className={`group relative p-6 rounded-2xl border-2 transition-all duration-500 cursor-pointer hover:scale-105 ${
                   selectedCollection === collection.name 
-                    ? `border-${collection.color} bg-gradient-to-br from-${collection.color}/10 to-${collection.color}/5` 
+                    ? `${colorClassMap[collection.color]?.border} bg-gradient-to-br ${colorClassMap[collection.color]?.bgFromTo}`
                     : 'border-border hover:border-primary/50 bg-card/80 backdrop-blur-sm'
                 }`}
                 onClick={() => setSelectedCollection(selectedCollection === collection.name ? null : collection.name)}

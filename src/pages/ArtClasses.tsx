@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -274,9 +273,9 @@ const ArtClasses = () => {
                   </div>
 
                   {/* CTA Button */}
-                  <Button className="w-full bg-gradient-to-r from-arteza-terracotta to-arteza-rust hover:from-arteza-rust hover:to-arteza-terracotta text-background font-semibold py-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg">
+                  <a href="/class-scheduler" className="block w-full text-center bg-gradient-to-r from-arteza-terracotta to-arteza-rust hover:from-arteza-rust hover:to-arteza-terracotta text-background font-semibold py-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg">
                     Book Your Creative Journey
-                  </Button>
+                  </a>
                 </CardContent>
               </Card>
             ))}
@@ -301,12 +300,12 @@ const ArtClasses = () => {
               there's a place for you here. Because art isn't about perfection; it's about connection, expression, and 
               the simple joy of creating something beautiful with your own hands.
             </p>
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-arteza-terracotta to-arteza-rust hover:from-arteza-rust hover:to-arteza-terracotta text-background font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+            <a 
+              href="/class-scheduler"
+              className="inline-flex items-center justify-center bg-gradient-to-r from-arteza-terracotta to-arteza-rust hover:from-arteza-rust hover:to-arteza-terracotta text-background font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
             >
               Start Your Artistic Journey Today
-            </Button>
+            </a>
           </div>
         </div>
       </section>

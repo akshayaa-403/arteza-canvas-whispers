@@ -15,6 +15,16 @@ const Home = () => {
       <div className="relative z-20">
         {/* Collection Highlights */}
         <FeaturedCollectionsCarousel />
+        {/* Quiz CTA */}
+        <section className="max-w-5xl mx-auto my-12 px-4">
+          <div className="bg-white/90 rounded-2xl shadow-lg py-8 px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <h3 className="text-2xl font-serif font-bold text-arteza-charcoal mb-1">Find Your Art Vibe</h3>
+              <p className="text-muted-foreground">Take a 1-minute quiz to discover your perfect collection: Dreamscapes, Abstract Expressions, Cultural Chronicles, or Nature's Palette.</p>
+            </div>
+            <a href="/quiz" className="inline-flex items-center rounded-full bg-arteza-terracotta text-white px-6 py-3 hover:bg-arteza-rust transition-colors">Start Quiz</a>
+          </div>
+        </section>
         {/* Bio */}
         <BioSection />
         {/* Brush divider */}

@@ -127,13 +127,13 @@ const ARTWORK_DATA: Artwork[] = [
     created_year: 2024
   },
   
-  // 1/3 Collection - Dreamscape
+  // 1/3 Collection - Dreamscapes
   {
     id: "dream-1",
     title: "Eternal Embrace",
     description: "An intimate moment captured against a backdrop of geometric dreams and floral beauty",
     image_url: "/lovable-uploads/ae9ada26-59ac-4fb5-b908-3036ec05f3de.png",
-    collection_name: "Dreamscape",
+    collection_name: "Dreamscapes",
     dominant_colors: ["green", "pink", "blue"],
     mood_tags: ["romantic", "intimate", "dreamy"],
     size_category: "large",
@@ -147,7 +147,7 @@ const ARTWORK_DATA: Artwork[] = [
     title: "Mystic Stallion",
     description: "An ethereal white horse galloping through a dreamlike sunset landscape",
     image_url: "/lovable-uploads/3cba9e2c-f145-4a4e-a4b7-70e4d8b2dc57.png",
-    collection_name: "Dreamscape",
+    collection_name: "Dreamscapes",
     dominant_colors: ["white", "orange", "blue"],
     mood_tags: ["ethereal", "mystical", "powerful"],
     size_category: "large",
@@ -161,7 +161,7 @@ const ARTWORK_DATA: Artwork[] = [
     title: "Golden Serenity",
     description: "Peaceful portrait of a woman in contemplative grace with golden tones",
     image_url: "/lovable-uploads/895e49c8-d33b-4e31-9371-edf109d7092a.png",
-    collection_name: "Dreamscape",
+    collection_name: "Dreamscapes",
     dominant_colors: ["gold", "red", "blue"],
     mood_tags: ["serene", "contemplative", "graceful"],
     size_category: "medium",
@@ -175,7 +175,7 @@ const ARTWORK_DATA: Artwork[] = [
     title: "Ethereal Beauty",
     description: "Soft portrait capturing feminine grace with flowing hair and gentle expression",
     image_url: "/lovable-uploads/52141c2d-547e-4d93-8bbd-5ca59e215373.png",
-    collection_name: "Dreamscape",
+    collection_name: "Dreamscapes",
     dominant_colors: ["brown", "blue", "white"],
     mood_tags: ["gentle", "feminine", "ethereal"],
     size_category: "medium",
@@ -189,7 +189,7 @@ const ARTWORK_DATA: Artwork[] = [
     title: "Icon of Grace",
     description: "Classic portrait inspired by timeless beauty and golden age glamour",
     image_url: "/lovable-uploads/ebc8450a-e8b8-4088-beda-c16dedc7c165.png",
-    collection_name: "Dreamscape",
+    collection_name: "Dreamscapes",
     dominant_colors: ["gold", "blue", "red"],
     mood_tags: ["glamorous", "iconic", "timeless"],
     size_category: "medium",
