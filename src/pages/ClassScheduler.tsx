@@ -74,7 +74,7 @@ const ClassScheduler = () => {
       if (error) throw error;
       setClasses(data || []);
     } catch (error) {
-      console.error("Error fetching classes:", error);
+      // Error handling - consider using proper error reporting service
       toast.error("Failed to load classes");
     } finally {
       setLoadingClasses(false);
@@ -126,7 +126,7 @@ const ClassScheduler = () => {
       setSpecialRequests("");
       fetchClasses();
     } catch (error) {
-      console.error("Error booking class:", error);
+      // Error handling - consider using proper error reporting service
       toast.error("Failed to book class. Please try again.");
     } finally {
       setBookingLoading(false);

@@ -106,7 +106,7 @@ const Commission = () => {
     }
 
     // Handle form submission
-    console.log("Commission request:", formData);
+    // Form data processing - implement actual submission logic
     toast({
       title: "Commission request submitted!",
       description: "Thank you for your request. I'll get back to you within 24 hours.",

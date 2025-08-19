@@ -5,23 +5,26 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Navigation from "@/components/Navigation";
+import { lazy, Suspense } from "react";
 import Home from "./pages/Home";
-import Shop from "./pages/Shop";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Blog from "./pages/Blog";
-import Quiz from "./pages/Quiz";
-import Commission from "./pages/Commission";
-import Cart from "./pages/Cart";
-import Payment from "./pages/Payment";
-import StudentGallery from "./pages/StudentGallery";
-import CollectorsWall from "./pages/CollectorsWall";
-import ArtClasses from "./pages/ArtClasses";
-import NotFound from "./pages/NotFound";
-import EnhancedShop from "./pages/EnhancedShop";
-import Auth from "./pages/Auth";
-import StudentDashboard from "./pages/StudentDashboard";
-import ClassScheduler from "./pages/ClassScheduler";
+
+// Lazy load non-critical pages
+const Shop = lazy(() => import("./pages/Shop"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Blog = lazy(() => import("./pages/Blog"));
+const Quiz = lazy(() => import("./pages/Quiz"));
+const Commission = lazy(() => import("./pages/Commission"));
+const Cart = lazy(() => import("./pages/Cart"));
+const Payment = lazy(() => import("./pages/Payment"));
+const StudentGallery = lazy(() => import("./pages/StudentGallery"));
+const CollectorsWall = lazy(() => import("./pages/CollectorsWall"));
+const ArtClasses = lazy(() => import("./pages/ArtClasses"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const EnhancedShop = lazy(() => import("./pages/EnhancedShop"));
+const Auth = lazy(() => import("./pages/Auth"));
+const StudentDashboard = lazy(() => import("./pages/StudentDashboard"));
+const ClassScheduler = lazy(() => import("./pages/ClassScheduler"));
 
 const queryClient = new QueryClient();
 
@@ -34,7 +37,8 @@ const App = () => (
         <BrowserRouter>
           <div className="min-h-screen bg-background">
             <Navigation />
-            <Routes>
+            <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+              <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/shop" element={<EnhancedShop />} />
               <Route path="/about" element={<About />} />
@@ -51,7 +55,8 @@ const App = () => (
               <Route path="/student-dashboard" element={<StudentDashboard />} />
               <Route path="/class-scheduler" element={<ClassScheduler />} />
               <Route path="*" element={<NotFound />} />
-            </Routes>
+              </Routes>
+            </Suspense>
           </div>
         </BrowserRouter>
       </TooltipProvider>

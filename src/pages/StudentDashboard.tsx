@@ -74,7 +74,7 @@ const StudentDashboard = () => {
       setEnrollments(enrollmentsResponse.data || []);
       setBookings(bookingsResponse.data || []);
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      // Error handling - consider using proper error reporting service
       toast.error("Failed to load your data");
     } finally {
       setLoadingData(false);

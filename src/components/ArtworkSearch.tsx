@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -501,9 +501,9 @@ const ArtworkSearch = ({ viewMode = 'grid', selectedCollection }: ArtworkSearchP
 
   useEffect(() => {
     applyFilters();
-  }, [filters, artworks, selectedCollection]);
+  }, [applyFilters]);
 
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = artworks;
 
     // Text search
@@ -565,7 +565,7 @@ const ArtworkSearch = ({ viewMode = 'grid', selectedCollection }: ArtworkSearchP
     }
 
     setFilteredArtworks(filtered);
-  };
+  }, [artworks, filters, selectedCollection]);
 
   const updateFilter = (key: keyof SearchFilters, value: string) => {
     setFilters(prev => ({ ...prev, [key]: value }));

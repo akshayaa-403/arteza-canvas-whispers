@@ -54,7 +54,7 @@ const EmailSubscription = () => {
             .update({
               subscription_status: 'active',
               name: name || null,
-              preferences: preferences as any, // Cast to any for Json compatibility
+              preferences: preferences as Record<string, unknown>, // Cast for Json compatibility
               updated_at: new Date().toISOString()
             })
             .eq("id", existing.id);
@@ -70,7 +70,7 @@ const EmailSubscription = () => {
             email,
             name: name || null,
             subscription_source: 'website',
-            preferences: preferences as any // Cast to any for Json compatibility
+            preferences: preferences as Record<string, unknown> // Cast for Json compatibility
           });
 
         if (error) throw error;
@@ -82,7 +82,7 @@ const EmailSubscription = () => {
       triggerWelcomeEmailSeries(email);
       
     } catch (error) {
-      console.error("Error subscribing:", error);
+      // Error handling - consider using proper error reporting service
       toast.error("Failed to subscribe. Please try again.");
     } finally {
       setLoading(false);
@@ -92,7 +92,7 @@ const EmailSubscription = () => {
   const triggerWelcomeEmailSeries = async (email: string) => {
     // This would typically trigger a background job or webhook
     // For now, we'll just log it and update the database
-    console.log(`Triggering welcome email series for: ${email}`);
+    // Trigger welcome email series - implement actual email service integration
     
     // Mark that we've started the welcome series
     await supabase

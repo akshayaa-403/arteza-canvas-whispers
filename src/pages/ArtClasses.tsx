@@ -33,7 +33,21 @@ const ArtClasses = () => {
   const [selectedFormat, setSelectedFormat] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
-  const [selectedClass, setSelectedClass] = useState<any>(null);
+  const [selectedClass, setSelectedClass] = useState<{
+    id: number;
+    title: string;
+    description: string;
+    instructor: string;
+    duration: string;
+    price: string;
+    image: string;
+    ageGroup: string;
+    format: string;
+    tags: string[];
+    difficulty: string;
+    materials: string[];
+    schedule: string;
+  } | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -201,7 +215,7 @@ const ArtClasses = () => {
     return matchesAge && matchesFormat && matchesSearch;
   });
 
-  const handleBookClass = (classItem: any) => {
+  const handleBookClass = (classItem: typeof selectedClass) => {
     setSelectedClass(classItem);
     setBookingDialogOpen(true);
   };
