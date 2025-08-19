@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -47,12 +47,9 @@ const ClassScheduler = () => {
     }
   }, [user, loading, navigate]);
 
-  useEffect(() => {
-    fetchClasses();
-  }, [selectedDate, selectedAgeGroup]);
-
-  const fetchClasses = async () => {
+  const fetchClasses = useCallback(async () => {
     try {
+      setLoadingClasses(true);
       let query = supabase
         .from("class_schedules")
         .select("*")
@@ -79,7 +76,11 @@ const ClassScheduler = () => {
     } finally {
       setLoadingClasses(false);
     }
-  };
+  }, [selectedDate, selectedAgeGroup]);
+
+  useEffect(() => {
+    fetchClasses();
+  }, [fetchClasses]);
 
   const handleBookClass = async () => {
     if (!selectedClass || !user) return;

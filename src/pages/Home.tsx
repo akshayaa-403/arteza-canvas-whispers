@@ -36,7 +36,7 @@ const Home = () => {
       setCurrentTrend((prev) => (prev + 1) % trendingTopics.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [trendingTopics.length]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-arteza-sage/20 to-arteza-cream/20 relative overflow-x-hidden">

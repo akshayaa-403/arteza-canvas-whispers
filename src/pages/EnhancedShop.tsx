@@ -265,7 +265,8 @@ const EnhancedShop = () => {
                         className="w-full text-xs"
                         onClick={(e) => {
                           e.stopPropagation();
-                          window.open(`https://open.spotify.com/playlist/${collection.spotifyPlaylist}`, '_blank');
+                          const win = window.open(`https://open.spotify.com/playlist/${collection.spotifyPlaylist}`, '_blank', 'noopener,noreferrer');
+                          if (win) win.opener = null;
                         }}
                       >
                         <Music className="h-3 w-3 mr-1" />
@@ -361,7 +362,10 @@ const EnhancedShop = () => {
                       <Button 
                         variant="outline"
                         className="flex-1"
-                        onClick={() => window.open(`https://open.spotify.com/playlist/${collection.spotifyPlaylist}`, '_blank')}
+                        onClick={() => {
+                          const win = window.open(`https://open.spotify.com/playlist/${collection.spotifyPlaylist}`, '_blank', 'noopener,noreferrer');
+                          if (win) win.opener = null;
+                        }}
                       >
                         <Music className="h-4 w-4 mr-2" />
                         Listen
