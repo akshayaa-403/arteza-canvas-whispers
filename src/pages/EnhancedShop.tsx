@@ -2,16 +2,51 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import ArtworkSearch from "@/components/ArtworkSearch";
 import EmailSubscription from "@/components/EmailSubscription";
 import CartBadge from "@/components/CartBadge";
-import { ArrowLeft, ShoppingBag, Heart, Grid3X3, List } from "lucide-react";
+import { ArrowLeft, ShoppingBag, Heart, Grid3X3, List, Music, Palette, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/hooks/useCart";
+import { useFadeInOnScroll } from "@/hooks/useFadeInOnScroll";
+
+const collections = [
+  {
+    name: "Dreamscape",
+    description: "Ethereal landscapes that blur the line between reality and imagination",
+    color: "arteza-sage",
+    icon: "✨",
+    spotifyPlaylist: "37i9dQZF1DWWQRwui0ExPn"
+  },
+  {
+    name: "Abstract Expressions",
+    description: "Bold strokes and vibrant emotions captured in abstract forms",
+    color: "arteza-terracotta", 
+    icon: "🎨",
+    spotifyPlaylist: "37i9dQZF1DX0XUsuxWHRQd"
+  },
+  {
+    name: "Cultural Chronicles",
+    description: "Stories of heritage and tradition painted with reverence",
+    color: "arteza-copper",
+    icon: "🏛️",
+    spotifyPlaylist: "37i9dQZF1DWZeKCadgRdKQ"
+  },
+  {
+    name: "Nature's Palette",
+    description: "The raw beauty of nature translated into artistic expression",
+    color: "arteza-moss",
+    icon: "🌿",
+    spotifyPlaylist: "37i9dQZF1DX4sWSpwq3LiO"
+  }
+];
 
 const EnhancedShop = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
   const { wishlist } = useCart();
+  const fadeInRef = useFadeInOnScroll();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-arteza-sage/20 to-arteza-terracotta/20">
@@ -61,20 +96,133 @@ const EnhancedShop = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Art Collections Section */}
+        <div className="mb-12">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-serif font-bold text-arteza-charcoal mb-4">
+              Explore Collections
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Each collection tells a unique story, paired with carefully curated music to enhance your viewing experience
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {collections.map((collection, index) => (
+              <div
+                key={collection.name}
+                className={`group relative p-6 rounded-2xl border-2 transition-all duration-500 cursor-pointer hover:scale-105 ${
+                  selectedCollection === collection.name 
+                    ? `border-${collection.color} bg-gradient-to-br from-${collection.color}/10 to-${collection.color}/5` 
+                    : 'border-border hover:border-primary/50 bg-card/80 backdrop-blur-sm'
+                }`}
+                onClick={() => setSelectedCollection(selectedCollection === collection.name ? null : collection.name)}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="text-center">
+                  <div className="text-4xl mb-3 animate-gentle-float">
+                    {collection.icon}
+                  </div>
+                  <h3 className="font-serif font-bold text-lg mb-2 text-arteza-charcoal">
+                    {collection.name}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {collection.description}
+                  </p>
+                  
+                  {/* Spotify Integration */}
+                  <div className="flex items-center justify-center gap-2 text-xs text-arteza-clay">
+                    <Music className="h-3 w-3" />
+                    <span>Curated Playlist</span>
+                  </div>
+                  
+                  {selectedCollection === collection.name && (
+                    <div className="mt-4 p-3 bg-background/80 rounded-lg border">
+                      <div className="flex items-center justify-between mb-2">
+                        <Badge variant="secondary" className="text-xs">
+                          <Sparkles className="h-3 w-3 mr-1" />
+                          Now Playing
+                        </Badge>
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.open(`https://open.spotify.com/playlist/${collection.spotifyPlaylist}`, '_blank');
+                          }}
+                        >
+                          <Music className="h-3 w-3 mr-1" />
+                          Open Spotify
+                        </Button>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Listen to music that inspired this collection
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <Tabs defaultValue="browse" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 max-w-md">
+          <TabsList className="grid w-full grid-cols-3 max-w-lg">
             <TabsTrigger value="browse" className="flex items-center gap-2">
-              <ShoppingBag className="h-4 w-4" />
+              <Palette className="h-4 w-4" />
               Browse Art
+            </TabsTrigger>
+            <TabsTrigger value="collections" className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4" />
+              Collections
             </TabsTrigger>
             <TabsTrigger value="favorites" className="flex items-center gap-2">
               <Heart className="h-4 w-4" />
-              My Favorites ({wishlist.length})
+              Favorites ({wishlist.length})
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="browse" className="space-y-8">
-            <ArtworkSearch viewMode={viewMode} />
+            <ArtworkSearch viewMode={viewMode} selectedCollection={selectedCollection} />
+          </TabsContent>
+
+          <TabsContent value="collections" className="space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {collections.map((collection) => (
+                <div key={collection.name} className="group relative overflow-hidden rounded-2xl border bg-card/80 backdrop-blur-sm">
+                  <div className="p-8">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <div className="text-3xl mb-2">{collection.icon}</div>
+                        <h3 className="font-serif font-bold text-xl mb-2 text-arteza-charcoal">
+                          {collection.name}
+                        </h3>
+                        <p className="text-muted-foreground mb-4">
+                          {collection.description}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-4">
+                      <Button 
+                        variant="outline"
+                        onClick={() => setSelectedCollection(collection.name)}
+                      >
+                        <Palette className="h-4 w-4 mr-2" />
+                        View Collection
+                      </Button>
+                      <Button 
+                        variant="secondary"
+                        onClick={() => window.open(`https://open.spotify.com/playlist/${collection.spotifyPlaylist}`, '_blank')}
+                      >
+                        <Music className="h-4 w-4 mr-2" />
+                        Listen on Spotify
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </TabsContent>
 
           <TabsContent value="favorites" className="space-y-8">

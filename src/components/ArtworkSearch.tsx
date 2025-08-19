@@ -36,6 +36,7 @@ interface SearchFilters {
 
 interface ArtworkSearchProps {
   viewMode?: 'grid' | 'list';
+  selectedCollection?: string | null;
 }
 
 // Complete artwork data with all 30 pieces (10 from each set)
@@ -469,7 +470,7 @@ const ARTWORK_DATA: Artwork[] = [
   }
 ];
 
-const ArtworkSearch = ({ viewMode = 'grid' }: ArtworkSearchProps) => {
+const ArtworkSearch = ({ viewMode = 'grid', selectedCollection }: ArtworkSearchProps) => {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
   const [filteredArtworks, setFilteredArtworks] = useState<Artwork[]>([]);
   const [loading, setLoading] = useState(false);
@@ -500,7 +501,7 @@ const ArtworkSearch = ({ viewMode = 'grid' }: ArtworkSearchProps) => {
 
   useEffect(() => {
     applyFilters();
-  }, [filters, artworks]);
+  }, [filters, artworks, selectedCollection]);
 
   const applyFilters = () => {
     let filtered = artworks;
@@ -518,6 +519,11 @@ const ArtworkSearch = ({ viewMode = 'grid' }: ArtworkSearchProps) => {
     // Collection filter
     if (filters.collection && filters.collection !== 'all-collections') {
       filtered = filtered.filter(artwork => artwork.collection_name === filters.collection);
+    }
+    
+    // Selected collection filter (from parent component)
+    if (selectedCollection) {
+      filtered = filtered.filter(artwork => artwork.collection_name === selectedCollection);
     }
 
     // Color filter
