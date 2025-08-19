@@ -18,7 +18,7 @@ const Quiz = () => {
         { text: "The escape it provides", value: "dreamscapes" },
         { text: "Raw emotional expression", value: "abstract" },
         { text: "Stories and heritage", value: "cultural" },
-        { text: "Quiet, personal moments", value: "intimate" }
+        { text: "The beauty of natural forms", value: "nature" }
       ]
     },
     {
@@ -27,7 +27,7 @@ const Quiz = () => {
         { text: "Soft pastels and dreamy hues", value: "dreamscapes" },
         { text: "Bold, contrasting tones", value: "abstract" },
         { text: "Rich, earthy pigments", value: "cultural" },
-        { text: "Muted, gentle shades", value: "intimate" }
+        { text: "Organic greens and earth tones", value: "nature" }
       ]
     },
     {
@@ -36,7 +36,7 @@ const Quiz = () => {
         { text: "Dawn - when the world awakens", value: "dreamscapes" },
         { text: "Midday - when energy peaks", value: "abstract" },
         { text: "Golden hour - when light tells stories", value: "cultural" },
-        { text: "Twilight - when thoughts turn inward", value: "intimate" }
+        { text: "Early morning - when nature stirs", value: "nature" }
       ]
     },
     {
@@ -45,7 +45,7 @@ const Quiz = () => {
         { text: "Lost in imagination", value: "dreamscapes" },
         { text: "Feeling every brushstroke", value: "abstract" },
         { text: "Connecting with history", value: "cultural" },
-        { text: "In quiet contemplation", value: "intimate" }
+        { text: "Finding peace in natural beauty", value: "nature" }
       ]
     },
     {
@@ -54,7 +54,7 @@ const Quiz = () => {
         { text: "Transport me elsewhere", value: "dreamscapes" },
         { text: "Energize and inspire", value: "abstract" },
         { text: "Tell meaningful stories", value: "cultural" },
-        { text: "Create peaceful moments", value: "intimate" }
+        { text: "Bring nature's calm indoors", value: "nature" }
       ]
     }
   ];
@@ -78,11 +78,11 @@ const Quiz = () => {
       image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
       message: "You value heritage and narrative. These pieces carry the weight of history and the beauty of cultural depth."
     },
-    intimate: {
-      name: "Intimate Moments",
-      description: "Quiet observations of daily poetry",
-      image: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb",
-      message: "You find beauty in stillness and contemplation. These works celebrate the gentle poetry of everyday life."
+    nature: {
+      name: "Nature's Palette",
+      description: "The raw beauty of nature translated into artistic expression",
+      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+      message: "You find solace in nature's embrace. These works capture the organic beauty and tranquility of the natural world."
     }
   };
 
