@@ -33,7 +33,29 @@ const ArtClasses = () => {
   const [selectedFormat, setSelectedFormat] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
-  const [selectedClass, setSelectedClass] = useState<any>(null);
+  type ArtClass = {
+    id: number;
+    title: string;
+    subtitle: string;
+    ageGroup: "kids" | "adults" | "seniors" | string;
+    format: "online" | "hybrid" | "workshop" | string;
+    duration: string;
+    cost: string;
+    originalPrice: string;
+    effort: string;
+    skills: string[];
+    description: string;
+    story: string;
+    maxStudents: number;
+    nextSession: string;
+    highlight: string;
+    rating: number;
+    totalStudents: number;
+    image: string;
+    popular: boolean;
+    tags: string[];
+  };
+  const [selectedClass, setSelectedClass] = useState<ArtClass | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -201,7 +223,7 @@ const ArtClasses = () => {
     return matchesAge && matchesFormat && matchesSearch;
   });
 
-  const handleBookClass = (classItem: any) => {
+  const handleBookClass = (classItem: ArtClass) => {
     setSelectedClass(classItem);
     setBookingDialogOpen(true);
   };

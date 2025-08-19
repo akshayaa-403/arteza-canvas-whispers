@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 import { toast } from "sonner";
 import { Mail, Palette, Sparkles, Check } from "lucide-react";
 
@@ -54,7 +55,7 @@ const EmailSubscription = () => {
             .update({
               subscription_status: 'active',
               name: name || null,
-              preferences: preferences as any, // Cast to any for Json compatibility
+              preferences: preferences as Json,
               updated_at: new Date().toISOString()
             })
             .eq("id", existing.id);
@@ -70,7 +71,7 @@ const EmailSubscription = () => {
             email,
             name: name || null,
             subscription_source: 'website',
-            preferences: preferences as any // Cast to any for Json compatibility
+            preferences: preferences as Json
           });
 
         if (error) throw error;

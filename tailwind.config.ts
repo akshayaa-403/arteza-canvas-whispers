@@ -1,5 +1,6 @@
 
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 
 export default {
 	darkMode: ["class"],
@@ -104,7 +105,7 @@ export default {
 				'brush-stroke': 'brush-stroke 0.8s ease-out forwards',
 				'gentle-float': 'gentle-float 3s ease-in-out infinite'
 			}
-		}
-	},
-	plugins: [require("tailwindcss-animate")],
+        }
+    },
+    plugins: [animate],
 } satisfies Config;
