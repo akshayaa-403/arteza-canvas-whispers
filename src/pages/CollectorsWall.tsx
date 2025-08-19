@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -41,7 +40,7 @@ const CollectorsWall = () => {
       id: 4,
       name: "Amit R.",
       location: "Pune",
-      artwork: "Dreamscape #2",
+      artwork: "Dreamscapes #2",
       image: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb",
       quote: "Bought this for my daughter's room. She says it helps her dream better. The colors are so soothing and magical.",
       rating: 5,

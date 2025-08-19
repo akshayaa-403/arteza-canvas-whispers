@@ -77,7 +77,7 @@ const Commission = () => {
       image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb"
     },
     {
-      title: "Dreamscape Commission",
+      title: "Dreamscapes Commission",
       size: "20x24 inches",
       image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb"
     }

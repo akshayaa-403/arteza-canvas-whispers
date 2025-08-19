@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -7,13 +7,13 @@ import ArtworkSearch from "@/components/ArtworkSearch";
 import EmailSubscription from "@/components/EmailSubscription";
 import CartBadge from "@/components/CartBadge";
 import { ArrowLeft, ShoppingBag, Heart, Grid3X3, List, Music, Palette, Sparkles } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useCart } from "@/hooks/useCart";
 import { useFadeInOnScroll } from "@/hooks/useFadeInOnScroll";
 
 const collections = [
   {
-    name: "Dreamscape",
+    name: "Dreamscapes",
     description: "Ethereal landscapes that blur the line between reality and imagination",
     color: "arteza-sage",
     icon: "✨",
@@ -47,6 +47,20 @@ const EnhancedShop = () => {
   const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
   const { wishlist } = useCart();
   const fadeInRef = useFadeInOnScroll();
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const incoming = params.get('collection');
+    if (incoming) {
+      const decoded = decodeURIComponent(incoming);
+      const normalized = decoded.trim();
+      const lower = normalized.toLowerCase();
+      // Map potential singular/plural mismatches to canonical names
+      const mapped = lower === 'dreamscape' || lower === 'dreamscapes' ? 'Dreamscapes' : normalized;
+      setSelectedCollection(mapped);
+    }
+  }, [location.search]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-arteza-sage/20 to-arteza-terracotta/20">

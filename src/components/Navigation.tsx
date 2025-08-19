@@ -15,9 +15,11 @@ const Navigation = () => {
   const navItems = [
     { name: "Home", path: "/" },
     { name: "Shop", path: "/shop" },
+    { name: "Quiz", path: "/quiz" },
     { name: "About", path: "/about" },
     { name: "Blog", path: "/blog" },
     { name: "Classes", path: "/art-classes" },
+    { name: "Book Class", path: "/class-scheduler" },
     { name: "Gallery", path: "/student-gallery" },
     { name: "Contact", path: "/contact" },
   ];

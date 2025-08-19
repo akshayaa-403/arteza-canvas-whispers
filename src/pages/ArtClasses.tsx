@@ -274,8 +274,8 @@ const ArtClasses = () => {
                   </div>
 
                   {/* CTA Button */}
-                  <Button className="w-full bg-gradient-to-r from-arteza-terracotta to-arteza-rust hover:from-arteza-rust hover:to-arteza-terracotta text-background font-semibold py-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg">
-                    Book Your Creative Journey
+                  <Button asChild className="w-full bg-gradient-to-r from-arteza-terracotta to-arteza-rust hover:from-arteza-rust hover:to-arteza-terracotta text-background font-semibold py-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg">
+                    <a href="/class-scheduler">Book Your Creative Journey</a>
                   </Button>
                 </CardContent>
               </Card>
@@ -302,10 +302,11 @@ const ArtClasses = () => {
               the simple joy of creating something beautiful with your own hands.
             </p>
             <Button 
+              asChild
               size="lg" 
               className="bg-gradient-to-r from-arteza-terracotta to-arteza-rust hover:from-arteza-rust hover:to-arteza-terracotta text-background font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
             >
-              Start Your Artistic Journey Today
+              <a href="/class-scheduler">Start Your Artistic Journey Today</a>
             </Button>
           </div>
         </div>
