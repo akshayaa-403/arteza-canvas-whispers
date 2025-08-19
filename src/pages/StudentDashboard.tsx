@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -50,9 +50,9 @@ const StudentDashboard = () => {
     if (user) {
       fetchUserData();
     }
-  }, [user]);
+  }, [user, fetchUserData]);
 
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     try {
       const [enrollmentsResponse, bookingsResponse] = await Promise.all([
         supabase
@@ -79,7 +79,7 @@ const StudentDashboard = () => {
     } finally {
       setLoadingData(false);
     }
-  };
+  }, []);
 
   const handleSignOut = async () => {
     await signOut();
