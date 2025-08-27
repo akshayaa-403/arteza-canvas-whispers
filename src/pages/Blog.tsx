@@ -14,7 +14,8 @@ import {
   Filter,
   Eye,
   MessageCircle,
-  Bookmark
+  Bookmark,
+  Palette
 } from "lucide-react";
 import { Link } from "react-router-dom";
 

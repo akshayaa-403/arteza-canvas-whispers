@@ -82,7 +82,7 @@ const EnhancedShop = () => {
   const [selectedFilter, setSelectedFilter] = useState("");
   const [sortBy, setSortBy] = useState("featured");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const { wishlist, cart } = useCart();
+  const { wishlist, items } = useCart();
   const fadeInRef = useFadeInOnScroll();
 
   const totalArtworks = collections.reduce((sum, collection) => sum + collection.count, 0);
