@@ -24,6 +24,7 @@ interface Booking {
   id: string;
   booking_status: string;
   payment_status: string;
+  class_schedule_id: string;
   class_schedules: {
     class_title: string;
     scheduled_date: string;
@@ -33,11 +34,15 @@ interface Booking {
   };
 }
 
+interface BookingWithZoom extends Booking {
+  zoom_link?: string;
+}
+
 const StudentDashboard = () => {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
-  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [bookings, setBookings] = useState<BookingWithZoom[]>([]);
   const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
@@ -63,7 +68,7 @@ const StudentDashboard = () => {
           .from("class_bookings")
           .select(`
             *,
-            class_schedules(class_title, scheduled_date, start_time, end_time, age_group)
+            class_schedules!inner(class_title, scheduled_date, start_time, end_time, age_group)
           `)
           .eq("user_id", user?.id)
       ]);
@@ -71,8 +76,28 @@ const StudentDashboard = () => {
       if (enrollmentsResponse.error) throw enrollmentsResponse.error;
       if (bookingsResponse.error) throw bookingsResponse.error;
 
+      const bookingsData = bookingsResponse.data || [];
+      
+      // Fetch zoom links for confirmed bookings
+      const bookingsWithZoom = await Promise.all(
+        bookingsData.map(async (booking) => {
+          if (booking.booking_status === 'confirmed') {
+            try {
+              const { data: zoomLink } = await supabase.rpc('get_class_zoom_link', {
+                class_id: booking.class_schedule_id
+              });
+              return { ...booking, zoom_link: zoomLink };
+            } catch (error) {
+              console.log("Could not fetch zoom link for booking:", booking.id);
+              return booking;
+            }
+          }
+          return booking;
+        })
+      );
+
       setEnrollments(enrollmentsResponse.data || []);
-      setBookings(bookingsResponse.data || []);
+      setBookings(bookingsWithZoom);
     } catch (error) {
       console.error("Error fetching user data:", error);
       toast.error("Failed to load your data");
@@ -282,12 +307,22 @@ const StudentDashboard = () => {
                           {booking.class_schedules.age_group} group
                         </div>
                       </div>
-                      <div className="mt-3">
+                      <div className="mt-3 flex flex-wrap gap-2">
                         <Badge variant="outline" className={`text-xs ${
                           booking.payment_status === 'paid' ? 'border-green-500 text-green-700' : 'border-orange-500 text-orange-700'
                         }`}>
                           Payment: {booking.payment_status}
                         </Badge>
+                        {booking.zoom_link && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => window.open(booking.zoom_link, '_blank')}
+                            className="text-xs h-6"
+                          >
+                            Join Class
+                          </Button>
+                        )}
                       </div>
                     </div>
                   ))}

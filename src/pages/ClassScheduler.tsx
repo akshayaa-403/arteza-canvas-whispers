@@ -25,7 +25,6 @@ interface ClassSchedule {
   end_time: string;
   max_students: number;
   current_enrollments: number;
-  zoom_link: string | null;
   materials_list: string[];
   status: string;
 }
@@ -54,9 +53,8 @@ const ClassScheduler = () => {
   const fetchClasses = async () => {
     try {
       let query = supabase
-        .from("class_schedules")
+        .from("class_schedules_public")
         .select("*")
-        .eq("status", "scheduled")
         .gte("scheduled_date", new Date().toISOString().split('T')[0])
         .order("scheduled_date", { ascending: true });
 
@@ -99,29 +97,15 @@ const ClassScheduler = () => {
         return;
       }
 
-      // Create booking
-      const { error: bookingError } = await supabase
-        .from("class_bookings")
-        .insert({
-          user_id: user.id,
-          class_schedule_id: selectedClass.id,
-          special_requests: specialRequests || null
-        });
+      // Create booking using the secure function
+      const { error: bookingError } = await supabase.rpc('book_class', {
+        p_class_schedule_id: selectedClass.id,
+        p_special_requests: specialRequests || null
+      });
 
       if (bookingError) throw bookingError;
 
-      // Update enrollment count
-      const { error: updateError } = await supabase
-        .from("class_schedules")
-        .update({ 
-          current_enrollments: selectedClass.current_enrollments + 1,
-          status: selectedClass.current_enrollments + 1 >= selectedClass.max_students ? 'full' : 'scheduled'
-        })
-        .eq("id", selectedClass.id);
-
-      if (updateError) throw updateError;
-
-      toast.success("Class booked successfully! Check your email for Zoom details.");
+      toast.success("Class booked successfully! You can view Zoom details in your dashboard.");
       setSelectedClass(null);
       setSpecialRequests("");
       fetchClasses();
