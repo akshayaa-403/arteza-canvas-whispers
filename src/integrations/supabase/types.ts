@@ -104,6 +104,13 @@ export type Database = {
             referencedRelation: "class_schedules"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "class_bookings_class_schedule_id_fkey"
+            columns: ["class_schedule_id"]
+            isOneToOne: false
+            referencedRelation: "class_schedules_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       class_schedules: {
@@ -240,10 +247,63 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      class_schedules_public: {
+        Row: {
+          age_group: string | null
+          class_title: string | null
+          class_type: string | null
+          created_at: string | null
+          current_enrollments: number | null
+          end_time: string | null
+          id: string | null
+          instructor_name: string | null
+          materials_list: string[] | null
+          max_students: number | null
+          scheduled_date: string | null
+          start_time: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          age_group?: string | null
+          class_title?: string | null
+          class_type?: string | null
+          created_at?: string | null
+          current_enrollments?: number | null
+          end_time?: string | null
+          id?: string | null
+          instructor_name?: string | null
+          materials_list?: string[] | null
+          max_students?: number | null
+          scheduled_date?: string | null
+          start_time?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          age_group?: string | null
+          class_title?: string | null
+          class_type?: string | null
+          created_at?: string | null
+          current_enrollments?: number | null
+          end_time?: string | null
+          id?: string | null
+          instructor_name?: string | null
+          materials_list?: string[] | null
+          max_students?: number | null
+          scheduled_date?: string | null
+          start_time?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      get_class_zoom_link: {
+        Args: { class_id: string }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
